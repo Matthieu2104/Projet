@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Connexion FabLab </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="form-container">
+    <h1>Se connecter</h1>
+    <form ><!--method="post" action="traitement.php"-->
+        <div class="form-group">
+            <label for="username" class="hidden"></label>
+            <div class="input-container">
+                <div class="icon"></div>
+                <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required>
+            </div>
+            <!-- Placez le message d'erreur en dessous du champ correspondant -->
+            <p id="user-erreur" class="erreur-message"></p>
+        </div>
+        <div class="form-group">
+            <label for="password" class="hidden"></label>
+            <div class="input-container">
+                <div class="icon password-icon"></div>
+                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+            </div>
+            <!-- Placez le message d'erreur en dessous du champ correspondant -->
+            <p id="password-erreur" class="erreur-message"></p>
+            <p class="forgot-password"><a href="Forgot-Password.html">Mot de passe oublié ?</a></p>
+            <p class="create-account"><a href="Inscrire.html">Creer un compte</a></p>
+        </div>
+
+        <button type="button" onclick="envoyer()">Connexion</button>
+    </form>
+</div>
+
+<script>
+    function envoyer() {
+        var user = document.getElementById("username").value;
+        var pass = document.getElementById("password").value;
+        const userErreur = document.getElementById("user-erreur");
+        const passErreur = document.getElementById("password-erreur");
+
+        if (user === "") {
+            userErreur.innerText = "le champ est vide ";
+            return;
+        }
+
+        if (pass === "") {
+            passErreur.innerText = "le champ est vide ";
+            return;
+        }
+
+        var donne = {
+            user: user,
+            pass: pass
+        };
+
+        fetch('https://57d1313e-8972-40f3-82bb-3749f6d90a81.mock.pstmn.io', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+
+            body: JSON.stringify(donne),
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            console.log('Réponse de:', data);
+            const message = data.message;
+
+            if (message === "connection réussie2") {
+                console.log("connexion réussie !");
+                window.location.href = 'dashboard.html';
+            } else {
+                // Placez le message d'erreur en dessous du champ correspondant
+                userErreur.innerText = "Mot de passe incorrect ou utilisateur incorrect";
+                passErreur.innerText = "Mot de passe incorrect ou utilisateur incorrect";
+            }
+        })
+
+        .catch(error => {
+            console.error('Erreur lors de la requête :', error);
+        });
+    }
+</script>
+
+</body>
+</html>

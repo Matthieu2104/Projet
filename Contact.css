@@ -1,0 +1,90 @@
+.FB {
+    width: 30px;
+    height: 30px;
+}
+.insta {
+    width: 30px;
+    height: 30px;
+}
+.X {
+    width: 30px;
+    height: 30px;
+}
+.contactForm {max-width: 300px; 
+    margin: 0 auto; 
+    float: right;
+    margin-right: 350px;
+    color: #fff;
+}
+
+label,input, textarea {
+    display: block; 
+    margin-bottom: 5px;
+    width: 200%; /* Utilisez la largeur complète du conteneur parent */
+    box-sizing: border-box; /* Inclure la bordure et le padding dans la largeur */
+    padding: 10px; /* Ajouter du remplissage pour un meilleur espacement */
+}
+
+textarea {
+    height: 245px;
+}
+
+button {
+    display: block;
+    margin-top: 10px; 
+}
+
+.contacteTitre {
+    margin-left: 70px;
+}
+
+.form {
+    margin-left: 30px;
+}
+
+
+.navbar {
+    background-color: #761bdd;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    width: 50px; /* Ajustez la taille du logo selon vos besoins */
+    height: auto; /* Pour maintenir les proportions */
+}
+
+.test h1 {
+    color: #fff;
+    margin: 0;
+}
+
+.nav-buttons {
+    display: flex;
+}
+
+.button {
+    color: #000000;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: #dddddd;
+}
+
+.button:hover {
+    background-color: #004d40;
+}
+
+
+body {
+    background-image: url('image/galaxy.jpg');
+    background-repeat: no-repeat; 
+    background-size: cover; 
+}
+
+.contacter{
+    color: #fff;
+}

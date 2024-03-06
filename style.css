@@ -1,0 +1,125 @@
+                                /*Tout ce qui est hors de la box*/
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+
+    background-image: url(image/fablabFond.jpg);
+    background-size: cover; 
+    background-repeat: no-repeat; 
+}
+                                /* box */
+.form-container {
+    width: 300px;
+    padding: 50px;
+    background: linear-gradient(135deg, #1200b1, #6f0191);
+    box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+}
+                                  /*Titre*/
+
+h1 {
+    margin-top: 0;
+    font-size: 1.8em;
+}
+
+                                /* gerer l'espace entre les champs */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+                                    /*Tout ce qui cooncerne les champs des formulaires*/
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+                            /*petite icon pour user */ 
+
+.input-container .icon {
+    width: 25px;
+    height: 25px;
+    background: url('image/user.png') center/contain no-repeat; 
+    margin-right: 10px;
+}
+                          /*petite icon mot mot de passe */
+
+.input-container .icon.password-icon {
+    background: url('image/Password.png') center/contain no-repeat; 
+}
+
+
+                      /* modifie les champs*/
+
+input {
+    flex: 1;
+    width: calc(100% - 30px);
+    padding: 12px;
+    font-size: 12px;
+    border: 1px solid #da00f7;
+    border-radius: 5px;
+    background-color: #001a33;
+    color: #da00f7;
+}
+                        /* champs mot de passe oublier que pour le formulaire de connexion*/
+
+.forgot-password {
+    margin-top: 8px;
+    font-size: 20px;
+    color: #da00f7;
+}
+
+.forgot-password a {
+    color: #da00f7;
+    text-decoration: none;
+    font-size: 0.6em;
+}
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+                    /*champs creation de compte que pour le formulaire de connexion */
+
+.create-account a {
+    color: #da00f7;
+    text-decoration: none;
+    font-size: 0.7em;
+}
+.create-account a:hover {
+    text-decoration: underline;
+}
+                     /* bouton*/
+
+button {
+    background-color: #b50bcc;
+    color: #fff;
+    padding: 13px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(121, 116, 197, 0.8);
+}
+
+button:hover {
+    background-color: #0c00bb;
+}
+                    
+.input-container .icon.password-icon {
+    background: url('image/Password.png') center/contain no-repeat;
+}
+
+.erreur-message {
+    font-size: 0.7em;
+    color: red !important;
+    margin-top: 5px;
+}

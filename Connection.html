@@ -43,14 +43,21 @@
         const userErreur = document.getElementById("user-erreur");
         const passErreur = document.getElementById("password-erreur");
 
+        // Vérification du champ utilisateur
         if (user === "") {
-            userErreur.innerText = "le champ est vide ";
+         userErreur.innerText = "Le champ est vide";
             return;
+        } else {
+         userErreur.innerText = "";
         }
-
+        // Vérification du mot de passe
         if (pass === "") {
-            passErreur.innerText = "le champ est vide ";
+            passErreur.innerText = "Le champ est vide";
             return;
+
+        } 
+        else {
+            passErreur.innerText = "";
         }
 
         var donne = {
@@ -58,13 +65,13 @@
             pass: pass
         };
 
-        fetch('https://57d1313e-8972-40f3-82bb-3749f6d90a81.mock.pstmn.io', {
+        fetch('https://57d1313e-8972-40f3-82bb-3749f6d90a81.mock.pstmn.io?', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
 
-            body: JSON.stringify(donne),
+            body: JSON.stringify(donne)
         })
         .then(response => response.json())
         .then(data => {

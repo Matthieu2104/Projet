@@ -66,7 +66,10 @@ function inscription() {
     const emailErreur = document.getElementById("email-erreur");
     const confPassErreur = document.getElementById("confirmPassword-erreur");
 
-    // Vérification du champ utilisateur
+    var MdpRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                                    // Vérif user 
     if (user === "") {
         userErreur.innerText = "Le champ est vide";
         return;
@@ -74,26 +77,31 @@ function inscription() {
         userErreur.innerText = "";
     }
 
-    // Vérification du champ email
+                                    // Vérif email
+
     if (mail === "") {
         emailErreur.innerText = "Le champ est vide";
         return;
-    } else {
+    } else if (!emailRegex.test(mail)){
+        emailErreur.innerText = "Veuillez entrer une email valide"
+
+    }else {
         emailErreur.innerText = "";
     }
 
-    // Vérification du mot de passe
+                                    // Verif mot de passe
+
     if (pass === "") {
         passErreur.innerText = "Le champ est vide";
         return;
 
-    } else if (!verifierMotDePasse(pass)) {
+    } else if (!MdpRegex.test(pass)) {
         passErreur.innerText = "Il faut au moins 8 caractere,1 chiffre,1 majuscule, miniscule et 1 caractere speciaux dans votre mot de passe";
         return;
     } else {
         passErreur.innerText = "";
     }
-
+                                      //Vérif confirm mdp
     if (confirm === "") {
         confPassErreur.innerText = "Le champ est vide";
         return;
@@ -104,11 +112,6 @@ function inscription() {
         confPassErreur.innerText = "";
     }
 
-}
-
-function verifierMotDePasse(password) {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return regex.test(password);
 }
 </script>
 </body>

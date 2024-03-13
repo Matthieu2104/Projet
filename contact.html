@@ -42,16 +42,57 @@
         <h2 class="form">Formulaire de Contact</h2>
         <label for="name"></label>
         <input type="text" id="name" name="name" placeholder="Nom" required>
+        <p id="nom-erreur" class="erreur-message"></p>
     
         <label for="email"></label>
         <input type="email" id="email" name="email" placeholder="email" required>
+        <p id="email-erreur" class="erreur-message"></p>
     
         <label for="message"></label>
         <textarea id="message" name="message"  placeholder="Message" required></textarea>
+        <p id="message-erreur" class="erreur-message"></p>
     
         <!-- Bouton "Envoyer" avec l'appel à la fonction submitForm() -->
-        <button type="button" onclick="submitForm()">Envoyer</button>
+        <button type="button" onclick="contact()">Envoyer</button>
     </form>
+    <script>
+        function contact(){
+            nom=document.getElementById("name").value
+            email=document.getElementById("email").value;
+            mess=document.getElementById("message").value;
+            
+            const emailErreur = document.getElementById("email-erreur");
+            const messErreur = document.getElementById("message-erreur");
+            const nomErreur = document.getElementById("nom-erreur");
+
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+            if (nom === "") {
+                nomErreur.innerText = "Le champ est vide";
+             return;
+            } else {
+                nomErreur.innerText = "";
+            }
+            if (email === "") {
+                emailErreur.innerText = "Le champ est vide";
+                return;
+             } else if (!emailRegex.test(email)){
+                emailErreur.innerText = "Veuillez entrer une email valide"
+
+            }else {
+                emailErreur.innerText = "";
+            }
+            if (mess === "") {
+                nomErreur.innerText = "Le champ est vide";
+             return;
+            } else {
+                messErreur.innerText = "";
+            }
+
+        }
+    </script>
+
     <div class="contacter">
         <h2 class="contacteTitre">Nous contacter</h2>
         <p class="adresse">Notre adresse est: 243 Bd Robert Ballanger, 93420 Villepinte</p>

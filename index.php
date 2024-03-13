@@ -16,9 +16,8 @@
 
 
 // Inclure le fichier de configuration pour la connexion à la base de données
-include 'config.php';
+include 'config2.php';
 
-// Récupération des données du formulaire
 $pdo = get_pdo_instance();
 
 $username = "hadine";
@@ -53,11 +52,11 @@ if ($username && $password) {
 
         // Envoyer une validation pour chaque étape si elles sont correctes
         if ($username_valid && $password_valid) {
-            echo "Validation du nom d'utilisateur et du mot de passe réussie. Connexion réussie.";
+            echo "Validation du nom d'utilisateur et du mot de passe réussie. Connexion réussie.Bienvenue $username.";
         } elseif ($username_valid && !$password_valid) {
             echo "Nom d'utilisateur correct, mais le mot de passe est incorrect.";
         } else {
-            echo "Nom d'utilisateur ou mot de passe incorrect.";
+            echo "Le nom d'utilisateur ou mot de passe est incorrect.";
         }
 
     } catch (PDOException $e) {
@@ -66,5 +65,4 @@ if ($username && $password) {
 }
 
 $pdo = null;
-
 ?>

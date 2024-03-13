@@ -66,7 +66,7 @@ function inscription() {
     const emailErreur = document.getElementById("email-erreur");
     const confPassErreur = document.getElementById("confirmPassword-erreur");
 
-    var MdpRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    var MdpRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&/+\-.,])[A-Za-z\d@$!%*?&/+\-.,]{8,}$/;
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
                                     // Vérif user 
@@ -111,7 +111,36 @@ function inscription() {
     } else {
         confPassErreur.innerText = "";
     }
+    var donne = {
+            user: user,
+            pass: pass,
+            mail:mail
+        };
+    fetch('https://57d1313e-8972-40f3-82bb-3749f6d90a81.mock.pstmn.io?', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
 
+            body: JSON.stringify(donne)
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            console.log('Réponse de:', data);
+            const message = data.message;
+
+            if (message === "inscription valider") {
+                console.log("inscription valider !");
+                window.location.href = 'Connection.html';
+            } else {
+                console.log("echec de l'inscription")
+            }
+        })
+
+        .catch(error => {
+            console.error('Erreur lors de la requête :', error);
+        });
 }
 </script>
 </body>

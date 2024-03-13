@@ -52,7 +52,7 @@ if ($username && $password) {
 
         // Envoyer une validation pour chaque étape si elles sont correctes
         if ($username_valid && $password_valid) {
-            echo "Validation du nom d'utilisateur et du mot de passe réussie. Connexion réussie.Bienvenue $username.";
+            echo "Validation du nom d'utilisateur et du mot de passe réussie. Connexion réussie.Bienvenue dans le Fablab $username.";
         } elseif ($username_valid && !$password_valid) {
             echo "Nom d'utilisateur correct, mais le mot de passe est incorrect.";
         } else {

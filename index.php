@@ -19,26 +19,52 @@
 include 'config.php';
 
 // Récupération des données du formulaire
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = "James";
-    $password = "azerty";
+$pdo = get_pdo_instance();
 
-    // Requête pour vérifier l'authentification dans la base de données
-    $query = "SELECT * FROM utilisateur WHERE username='$username' AND password='$password'";
-    $result = $pdo->query($query);
+$username = "hadine";
+$password = "popo";
 
-    // Vérification du résultat de la requête
-    if ($result->num_rows > 0) {
-        // Authentification réussie
-        echo json_encode(["message" => "connexion réussie"]);
-    } else {
-        // Authentification échouée
-        echo json_encode(["message" => "Mot de passe incorrect ou utilisateur incorrect"]);
+$username_valid = false;
+$password_valid = false;
+
+if ($username && $password) {
+    try {
+        // Utilisation de requêtes préparées pour éviter les injections SQL
+        $sql = "SELECT username, password FROM user.inscrit WHERE username = :username";
+        $requete = $pdo->prepare($sql);
+        $requete->bindParam(':username', $username, PDO::PARAM_STR);
+        $requete->execute();
+
+        while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
+            if ($row['username'] === $username) {
+                // Le nom d'utilisateur est valide
+                $username_valid = true;
+                break;
+            }
+        }
+
+        if ($username_valid) {
+            // Si le nom d'utilisateur est valide, vérifier le mot de passe
+            if ($row['password'] === $password) {
+                // Le nom d'utilisateur est valide
+                $password_valid = true;
+            }
+        }
+
+        // Envoyer une validation pour chaque étape si elles sont correctes
+        if ($username_valid && $password_valid) {
+            echo "Validation du nom d'utilisateur et du mot de passe réussie. Connexion réussie.";
+        } elseif ($username_valid && !$password_valid) {
+            echo "Nom d'utilisateur correct, mais le mot de passe est incorrect.";
+        } else {
+            echo "Nom d'utilisateur ou mot de passe incorrect.";
+        }
+
+    } catch (PDOException $e) {
+        echo "Erreur : " . $e->getMessage();
     }
 }
 
-// Fermeture de la connexion à la base de données (vous pouvez le faire à la fin de votre script)
-$pdo->close();
-
+$pdo = null;
 
 ?>

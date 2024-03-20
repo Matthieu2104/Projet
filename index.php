@@ -1,32 +1,23 @@
 <?php
-// Include config file
-//require_once "config.php";
-//if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupération des données du formulaire
-    //$user = htmlspecialchars($_POST["username"]);
-    //$pass = htmlspecialchars($_POST["password"]);
-
-    // Vous pouvez traiter les données comme vous le souhaitez ici
-    // Par exemple, vérifier les informations de connexion, les enregistrer dans une base de données, etc.
-
-    // Redirection vers une autre page après le traitement
-   // header("Location: dashboard.html");
-   // exit();
-//}
-
-
-// Inclure le fichier de configuration pour la connexion à la base de données
+// Inclure le fichier de configuration
 include 'config2.php';
 
-$pdo = get_pdo_instance();
+// Vérifier si les champs username et password ont été envoyés
+if(isset($_POST['username']) && isset($_POST['password'])) {
+    // Récupérer les valeurs des champs username et password
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-$username = "hadine";
-$password = "popo";
+    // Initialiser les variables pour la validation des champs
+    $username_valid = false;
+    $password_valid = false;
 
-$username_valid = false;
-$password_valid = false;
+    // Initialiser la variable pour stocker le résultat de la connexion
+    $connexion_reussie = false;
 
-if ($username && $password) {
+    // Vérifier l'authentification de l'utilisateur
+    $pdo = get_pdo_instance(); // Supposant que cette fonction est définie dans config2.php
+
     try {
         // Utilisation de requêtes préparées pour éviter les injections SQL
         $sql = "SELECT username, password FROM user.inscrit WHERE username = :username";
@@ -45,24 +36,27 @@ if ($username && $password) {
         if ($username_valid) {
             // Si le nom d'utilisateur est valide, vérifier le mot de passe
             if ($row['password'] === $password) {
-                // Le nom d'utilisateur est valide
-                $password_valid = true;
+                // Le nom d'utilisateur et le mot de passe sont valides
+                $connexion_reussie = true;
             }
         }
 
-        // Envoyer une validation pour chaque étape si elles sont correctes
-        if ($username_valid && $password_valid) {
-            echo "Validation du nom d'utilisateur et du mot de passe réussie. Connexion réussie.Bienvenue dans le Fablab $username.";
-        } elseif ($username_valid && !$password_valid) {
-            echo "Nom d'utilisateur correct, mais le mot de passe est incorrect.";
+        // Retourner une réponse JSON indiquant le succès ou l'échec de la connexion
+        if ($connexion_reussie) {
+            echo json_encode(array("connexion_reussie" => true, "message" => "Connexion réussie. Bienvenue dans le Fablab."));
         } else {
-            echo "Le nom d'utilisateur ou mot de passe est incorrect.";
+            echo json_encode(array("connexion_reussie" => false, "message" => "Nom d'utilisateur ou mot de passe incorrect."));
         }
 
     } catch (PDOException $e) {
-        echo "Erreur : " . $e->getMessage();
+        // Gestion des erreurs de base de données
+        echo json_encode(array("connexion_reussie" => false, "message" => "Erreur de base de données: " . $e->getMessage()));
     }
-}
 
-$pdo = null;
+    // Fermer la connexion PDO
+    $pdo = null;
+} else {
+    // Les champs n'ont pas été envoyés
+    echo json_encode(array("connexion_reussie" => false, "message" => "Champs manquants."));
+}
 ?>

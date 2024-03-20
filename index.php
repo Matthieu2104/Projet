@@ -43,9 +43,9 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
 
         // Retourner une réponse JSON indiquant le succès ou l'échec de la connexion
         if ($connexion_reussie) {
-            echo json_encode(array("connexion_reussie" => true, "message" => "Connexion réussie. Bienvenue dans le Fablab."));
+            echo json_encode(array("connexion_reussie" => true, "message" => "Connexion reussie. Bienvenue dans le Fablab $username."));
         } else {
-            echo json_encode(array("connexion_reussie" => false, "message" => "Nom d'utilisateur ou mot de passe incorrect."));
+            echo json_encode(array("connexion_reussie" => false, "message" => "Nom utilisateur ou mot de passe incorrect."));
         }
 
     } catch (PDOException $e) {

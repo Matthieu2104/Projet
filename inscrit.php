@@ -3,11 +3,11 @@
 require_once('config2.php');
 
 // Vérification si le formulaire a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if(isset($_POST['username']) && isset($_POST['password'])&& isset($_POST['email'])) {
     // Récupération des champs du formulaire
     $username = $_POST['username'];
-    $mail = $_POST['email'];
     $password = $_POST['password'];
+    $mail = $_POST['email'];
 
     // Définition du grade par défaut
     $grade = "member";
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Préparation de la requête d'insertion
-        $stmt = $pdo->prepare("INSERT INTO user.inscrit (username, grade, password, mail) VALUES (:username, :grade, :password, :mail)");
+        $stmt = $pdo->prepare("INSERT INTO user.inscrit(username, grade, password, mail) VALUES (:username, :grade, :password, :mail)");
 
         // Liaison des valeurs aux paramètres de la requête
         $stmt->bindParam(':username', $username);

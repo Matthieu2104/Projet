@@ -60,12 +60,72 @@
 
         // Fonction pour éditer une ligne
         function editRow(id) {
-            // Implémentez votre logique pour éditer la ligne ici
-            console.log('Éditer la ligne avec l\'ID:', id);
+            // Récupérer la ligne à éditer
+            const rowToEdit = document.querySelector(`#employeeTable tbody tr[data-id="${id}"]`);
+
+            // Récupérer les données de la ligne à éditer
+            const name = rowToEdit.querySelector('td:nth-child(1)').textContent;
+            const grade = rowToEdit.querySelector('td:nth-child(2)').textContent;
+            const password = rowToEdit.querySelector('td:nth-child(3)').textContent;
+            const mail = rowToEdit.querySelector('td:nth-child(4)').textContent;
+
+            // Créer le formulaire pop-up
+            const formHTML = `
+                <div id="editFormOverlay">
+                    <div id="editForm">
+                        <h2>Modifier l'employé</h2>
+                        <form id="editEmployeeForm">
+                            <label for="editName">Nom:</label>
+                            <input type="text" id="editName" value="${name}">
+                            <label for="editGrade">Grade:</label>
+                            <input type="text" id="editGrade" value="${grade}">
+                            <label for="editPassword">Mot de passe:</label>
+                            <input type="text" id="editPassword" value="${password}">
+                            <label for="editMail">Mail:</label>
+                            <input type="text" id="editMail" value="${mail}">
+                            <button type="submit">Enregistrer</button>
+                        </form>
+                        <button id="closeEditForm">Fermer</button>
+                    </div>
+                </div>
+            `;
+
+            // Ajouter le formulaire pop-up au corps de la page
+            document.body.insertAdjacentHTML('beforeend', formHTML);
+
+            // Gérer la soumission du formulaire
+            const editForm = document.getElementById('editEmployeeForm');
+            editForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // Récupérer les valeurs modifiées
+                const editedName = document.getElementById('editName').value;
+                const editedGrade = document.getElementById('editGrade').value;
+                const editedPassword = document.getElementById('editPassword').value;
+                const editedMail = document.getElementById('editMail').value;
+
+                // Mettre à jour les valeurs dans la ligne du tableau
+                rowToEdit.querySelector('td:nth-child(1)').textContent = editedName;
+                rowToEdit.querySelector('td:nth-child(2)').textContent = editedGrade;
+                rowToEdit.querySelector('td:nth-child(3)').textContent = editedPassword;
+                rowToEdit.querySelector('td:nth-child(4)').textContent = editedMail;
+
+                // Fermer le formulaire
+                closeEditForm();
+            });
+
+            // Gérer la fermeture du formulaire
+            const closeEditFormButton = document.getElementById('closeEditForm');
+            closeEditFormButton.addEventListener('click', closeEditForm);
         }
 
-        // Fonction pour supprimer une ligne
-            // Fonction pour supprimer une ligne
+        // Fonction pour fermer le formulaire d'édition
+        function closeEditForm() {
+            const editFormOverlay = document.getElementById('editFormOverlay');
+            editFormOverlay.remove();
+        }
+
+
         function deleteRow(id) {
             // Envoyer une requête DELETE au serveur pour supprimer l'entrée correspondante
             fetch(`supprimer.php?id=${id}`, { method: 'GET' })

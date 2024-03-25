@@ -41,7 +41,7 @@
                     tbody.innerHTML = ''; // Clear existing data
                     data.forEach(row => {
                         const tr = document.createElement('tr');
-                         tr.innerHTML = `
+                        tr.innerHTML = `
                          <td>${row.id}</td>
                          <td>${row.username}</td>
                          <td>${row.grade}</td>
@@ -65,17 +65,26 @@
         }
 
         // Fonction pour supprimer une ligne
+            // Fonction pour supprimer une ligne
         function deleteRow(id) {
-            // Implémentez votre logique pour supprimer la ligne ici
-
-            console.log('Supprimer la ligne avec l\'ID:', id);
+            // Envoyer une requête DELETE au serveur pour supprimer l'entrée correspondante
+            fetch(`supprimer.php?id=${id}`, { method: 'GET' })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la suppression de la ligne');
+                    }
+                    // Actualiser les données après la suppression
+                    retrieveData();
+                    console.log(`L'entrée avec l'ID ${id} a été supprimée avec succès.`);
+                })
+                .catch(error => console.error('Erreur lors de la suppression de la ligne:', error));
         }
-
-        // Appeler la fonction pour récupérer les données lors du chargement de la page
-        window.onload = retrieveData;
+    // Appeler la fonction pour récupérer les données lors du chargement de la page
+    window.onload = retrieveData;
     </script>
 </body>
 </html>
+
 
 
 

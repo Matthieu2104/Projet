@@ -10,7 +10,7 @@ if(isset($_GET['id'])) {
     $id = $_GET['id'];
 
     // Requête pour supprimer l'enregistrement avec l'ID spécifié
-    $sql = "DELETE FROM user.inscrit WHERE id = :id";
+    $sql = "DELETE FROM fablab2024.inscrit WHERE id = :id";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
@@ -29,4 +29,6 @@ if(isset($_GET['id'])) {
 // Fermer la connexion à la base de données
 $pdo = null;
 ?>
+
+
 

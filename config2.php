@@ -1,10 +1,10 @@
 <?php
 // config.php
 
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'projet');
-define('DB_NAME', 'user');
+define('DB_SERVER', '51.210.151.13');
+define('DB_USERNAME', 'fablab');
+define('DB_PASSWORD', 'Fablab2024!');
+define('DB_NAME', 'fablab2024');
 
 function get_pdo_instance()
 {
@@ -12,8 +12,10 @@ function get_pdo_instance()
         $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
+
+
     } catch (PDOException $e) {
         die("Connection à la base de donnée impossible: " . $e->getMessage());
     }
 }
-?> 
+?>

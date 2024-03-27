@@ -11,19 +11,21 @@ if(isset($_POST['username']) && isset($_POST['password'])&& isset($_POST['email'
 
     // Définition du grade par défaut
     $grade = "member";
+    $numero = "ufoheruifh";
 
     // Connexion à la base de données
     $pdo = get_pdo_instance();
 
     try {
         // Préparation de la requête d'insertion
-        $stmt = $pdo->prepare("INSERT INTO user.inscrit(username, grade, password, mail) VALUES (:username, :grade, :password, :mail)");
+        $stmt = $pdo->prepare("INSERT INTO fablab2024.inscrit(username, grade, password, mail, numero) VALUES (:username, :grade, :password, :mail, :numero)");
 
         // Liaison des valeurs aux paramètres de la requête
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':grade', $grade);
         $stmt->bindParam(':password', $password);
         $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':numero', $numero);
 
         // Exécution de la requête
         $stmt->execute();

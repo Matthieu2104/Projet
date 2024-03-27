@@ -7,141 +7,108 @@
     <link rel="stylesheet" href="gerer.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Employee Management Dashboard</h1>
-        <table id="employeeTable">
-            <thead>
-                <button type="button" onclick="Ajoutez()">Ajouter un membre</button>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Grade</th>
-                    <th>Password</th>
-                    <th>Mail</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
+<div class="container">
+    <h1>Employee Management Dashboard</h1>
+    <table id="employeeTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Grade</th>
+            <th>Password</th>
+            <th>Mail</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 
-    <script>
-        // Fonction pour récupérer les données depuis le fichier PHP
-        function retrieveData() {
-            fetch('gerer.php')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const tbody = document.querySelector('#employeeTable tbody');
-                    tbody.innerHTML = ''; // Clear existing data
-                    data.forEach(row => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
+<!-- Modal -->
+<div id="myModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <form id="editForm">
+            <label for="editName">Name:</label>
+            <input type="text" id="editName" name="editName">
+            <label for="editGrade">Grade:</label>
+            <input type="text" id="editGrade" name="editGrade">
+            <label for="editPassword">Password:</label>
+            <input type="password" id="editPassword" name="editPassword">
+            <label for="editMail">Mail:</label>
+            <input type="email" id="editMail" name="editMail">
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Fonction pour récupérer les données depuis le fichier PHP
+    function retrieveData() {
+        fetch('gerer.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const tbody = document.querySelector('#employeeTable tbody');
+                tbody.innerHTML = ''; // Clear existing data
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
                          <td>${row.id}</td>
                          <td>${row.username}</td>
                          <td>${row.grade}</td>
                          <td>${row.password}</td>
                          <td>${row.mail}</td>
                           <td>
-                    <button onclick="editRow(${row.id})">Modifier</button>
-                    <button onclick="deleteRow(${row.id})">Supprimer</button>
-                </td>
-            `;
-                        tbody.appendChild(tr);
-                    });
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
+                            <button onclick="openModal(${row.id})">Modifier</button>
+                            <button onclick="deleteRow(${row.id})">Supprimer</button>
+                          </td>
+                        `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
 
-        // Fonction pour éditer une ligne
-        function editRow(id) {
-            // Récupérer la ligne à éditer
-            const rowToEdit = document.querySelector(`#employeeTable tbody tr[data-id="${id}"]`);
+    // Fonction pour ouvrir la modal de formulaire d'édition
+    function openModal(id) {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block"; // Affiche la modal
+        // Vous pouvez ici charger les données de la ligne avec l'ID spécifié dans le formulaire pour l'édition
+    }
 
-            // Récupérer les données de la ligne à éditer
-            const name = rowToEdit.querySelector('td:nth-child(1)').textContent;
-            const grade = rowToEdit.querySelector('td:nth-child(2)').textContent;
-            const password = rowToEdit.querySelector('td:nth-child(3)').textContent;
-            const mail = rowToEdit.querySelector('td:nth-child(4)').textContent;
-
-            // Créer le formulaire pop-up
-            const formHTML = `
-                <div id="editFormOverlay">
-                    <div id="editForm">
-                        <h2>Modifier l'employé</h2>
-                        <form id="editEmployeeForm">
-                            <label for="editName">Nom:</label>
-                            <input type="text" id="editName" value="${name}">
-                            <label for="editGrade">Grade:</label>
-                            <input type="text" id="editGrade" value="${grade}">
-                            <label for="editPassword">Mot de passe:</label>
-                            <input type="text" id="editPassword" value="${password}">
-                            <label for="editMail">Mail:</label>
-                            <input type="text" id="editMail" value="${mail}">
-                            <button type="submit">Enregistrer</button>
-                        </form>
-                        <button id="closeEditForm">Fermer</button>
-                    </div>
-                </div>
-            `;
-
-            // Ajouter le formulaire pop-up au corps de la page
-            document.body.insertAdjacentHTML('beforeend', formHTML);
-
-            // Gérer la soumission du formulaire
-            const editForm = document.getElementById('editEmployeeForm');
-            editForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                // Récupérer les valeurs modifiées
-                const editedName = document.getElementById('editName').value;
-                const editedGrade = document.getElementById('editGrade').value;
-                const editedPassword = document.getElementById('editPassword').value;
-                const editedMail = document.getElementById('editMail').value;
-
-                // Mettre à jour les valeurs dans la ligne du tableau
-                rowToEdit.querySelector('td:nth-child(1)').textContent = editedName;
-                rowToEdit.querySelector('td:nth-child(2)').textContent = editedGrade;
-                rowToEdit.querySelector('td:nth-child(3)').textContent = editedPassword;
-                rowToEdit.querySelector('td:nth-child(4)').textContent = editedMail;
-
-                // Fermer le formulaire
-                closeEditForm();
-            });
-
-            // Gérer la fermeture du formulaire
-            const closeEditFormButton = document.getElementById('closeEditForm');
-            closeEditFormButton.addEventListener('click', closeEditForm);
-        }
-
-        // Fonction pour fermer le formulaire d'édition
-        function closeEditForm() {
-            const editFormOverlay = document.getElementById('editFormOverlay');
-            editFormOverlay.remove();
-        }
+    // Fonction pour fermer la modal de formulaire d'édition
+    function closeModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none"; // Cache la modal
+    }
 
 
-        function deleteRow(id) {
-            // Envoyer une requête DELETE au serveur pour supprimer l'entrée correspondante
-            fetch(`supprimer.php?id=${id}`, { method: 'GET' })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erreur lors de la suppression de la ligne');
-                    }
-                    // Actualiser les données après la suppression
-                    retrieveData();
-                    console.log(`L'entrée avec l'ID ${id} a été supprimée avec succès.`);
-                })
-                .catch(error => console.error('Erreur lors de la suppression de la ligne:', error));
-        }
+    // Fonction pour supprimer une ligne
+
+
+
+    function deleteRow(id) {
+        // Envoyer une requête DELETE au serveur pour supprimer l'entrée correspondante
+        fetch(`supprimer.php?id=${id}`, { method: 'GET' })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la suppression de la ligne');
+                }
+                // Actualiser les données après la suppression
+                retrieveData();
+                console.log(`L'entrée avec l'ID ${id} a été supprimée avec succès.`);
+            })
+            .catch(error => console.error('Erreur lors de la suppression de la ligne:', error));
+    }
     // Appeler la fonction pour récupérer les données lors du chargement de la page
     window.onload = retrieveData;
-    </script>
+</script>
 </body>
 </html>
 

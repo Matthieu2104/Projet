@@ -12,21 +12,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         // Exécution de la requête pour récupérer le grade
-        $gradeStmt = $pdo->prepare("SELECT grade FROM user.inscrit WHERE mail = :mail");
+        $gradeStmt = $pdo->prepare("SELECT grade FROM fablab2024.inscrit WHERE mail = :mail");
         $gradeStmt->bindParam(':mail', $mail);
         $gradeStmt->execute();
         $gradeResult = $gradeStmt->fetch(PDO::FETCH_ASSOC);
         $grade = $gradeResult['grade'];
 
         // Exécution de la requête pour récupérer le nom d'utilisateur
-        $usernameStmt = $pdo->prepare("SELECT username FROM user.inscrit WHERE mail = :mail");
+        $usernameStmt = $pdo->prepare("SELECT username FROM fablab2024.inscrit WHERE mail = :mail");
         $usernameStmt->bindParam(':mail', $mail);
         $usernameStmt->execute();
         $usernameResult = $usernameStmt->fetch(PDO::FETCH_ASSOC);
         $username = $usernameResult['username'];
 
         // Préparation de la requête de mise à jour
-        $stmt = $pdo->prepare("UPDATE user.inscrit SET password = :newPassword WHERE mail = :mail");
+        $stmt = $pdo->prepare("UPDATE fablab2024.inscrit SET password = :newPassword WHERE mail = :mail");
 
         // Liaison des valeurs aux paramètres de la requête
         $stmt->bindParam(':newPassword', $newPassword);
@@ -53,3 +53,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Conversion du tableau en JSON
 echo json_encode($response);
 ?>
+

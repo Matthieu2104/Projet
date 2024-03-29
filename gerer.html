@@ -12,6 +12,7 @@
     <table id="employeeTable">
         <thead>
         <tr>
+            <button type="button" onclick="openModal2()">Ajouter un membre</button>
             <th>ID</th>
             <th>Name</th>
             <th>Grade</th>
@@ -26,7 +27,8 @@
     </table>
 </div>
 
-<!--Modal pour le bouton modifier-->
+<!-- Modal pour le bouton modifier-->
+
 
 <div id="myModal" class="modal" style="display: none;">
     <div class="modal-content">
@@ -46,6 +48,32 @@
         </form>
     </div>
 </div>
+
+<!-- Modal pour ajouter un membre -->
+
+
+<div id="ajouterModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal2()">&times;</span>
+        <form id="ajouterForm" method="post" action="ajouter.php">
+            <label for="newName">Name:</label>
+            <input type="text" id="newName" name="newName">
+            <label for="newGrade">Grade:</label>
+            <input type="text" id="newGrade" name="newGrade">
+            <label for="newPassword">Password:</label>
+            <input type="password" id="newPassword" name="newPassword">
+            <label for="newMail">Mail:</label>
+            <input type="email" id="newMail" name="newMail">
+            <label for="newNumero">Numero de carte</label>
+            <input type="text" id="newNumero" name="newNumero">
+            <button type="button" onclick="ajouterMembre()">Ajouter Membre</button>
+        </form>
+    </div>
+</div>
+
+
+<!--SCRIPT-->
+
 
 <script>
     let editId = null;
@@ -164,6 +192,43 @@
             })
             .catch(error => console.error('Erreur lors de la suppression de la ligne:', error));
     }
+
+    function ajouterMembre(){
+        var form = document.getElementById("ajouterForm");
+        var formData = new FormData(form);
+
+        fetch('ajouter.php',{
+            method:"POST",
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    // La requête a réussi, faire quelque chose ici si nécessaire
+                    closeModal2()
+                    retrieveData();
+                    console.log('Données sauvegardées avec succès !');
+                } else {
+                    // La requête a échoué, gérer l'erreur ici si nécessaire
+                    console.error('Erreur lors de la sauvegarde des données : ', response.status);
+                }
+            })
+            .catch(error => {
+                // Une erreur s'est produite lors de la tentative d'envoi des données
+                console.error('Erreur lors de la tentative de sauvegarde des données : ', error);
+            });
+    }
+
+    function openModal2() {
+        var modal2 = document.getElementById("ajouterModal");
+        modal2.style.display = "block";
+    }
+
+    function closeModal2() {
+        var modal2 = document.getElementById("ajouterModal");
+        modal2.style.display = "none"; // Cache la modal
+    }
+
+
     // Appeler la fonction pour récupérer les données lors du chargement de la page
     window.onload = retrieveData;
 

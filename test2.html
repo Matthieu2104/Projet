@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management Dashboard</title>
+    <link rel="stylesheet" href="gerer.css">
+</head>
+<body>
+<div class="container">
+    <h1>Employee Management Dashboard</h1>
+    <table id="employeeTable">
+        <thead>
+        <tr>
+            <button type="button" onclick="openModal2()">Ajouter un membre</button>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Grade</th>
+            <th>Password</th>
+            <th>Mail</th>
+            <th>Numero de carte</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+                          <!-- Modal pour le bouton modifier-->
+
+
+<div id="myModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <form id="editForm" method="post" action="modifier.php">
+            <label for="editName">Name:</label>
+            <input type="text" id="editName" name="editName">
+            <label for="editGrade">Grade:</label>
+            <input type="text" id="editGrade" name="editGrade">
+            <label for="editPassword">Password:</label>
+            <input type="password" id="editPassword" name="editPassword">
+            <label for="editMail">Mail:</label>
+            <input type="email" id="editMail" name="editMail">
+            <label for="editNumero">Numero de carte</label>
+            <input type="text" id="editNumero" name="editNumero">
+            <button type="button" onclick="sauvegarder()">Sauvegarder</button>
+        </form>
+    </div>
+</div>
+
+                            <!-- Modal pour ajouter un membre -->
+
+
+<div id="ajouterModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal2()">&times;</span>
+        <form id="ajouterForm" method="post" action="ajouter.php">
+            <label for="newName">Name:</label>
+            <input type="text" id="newName" name="newName">
+            <label for="newGrade">Grade:</label>
+            <input type="text" id="newGrade" name="newGrade">
+            <label for="newPassword">Password:</label>
+            <input type="password" id="newPassword" name="newPassword">
+            <label for="newMail">Mail:</label>
+            <input type="email" id="newMail" name="newMail">
+            <label for="newNumero">Numero de carte</label>
+            <input type="text" id="newNumero" name="newNumero">
+            <button type="button" onclick="ajouterMembre()">Ajouter Membre</button>
+        </form>
+    </div>
+</div>
+
+
+                                            <!--SCRIPT-->
+
+
+<script>
+    let editId = null;
+    // Fonction pour récupérer les données depuis le fichier PHP
+    function retrieveData() {
+        fetch('gerer.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const tbody = document.querySelector('#employeeTable tbody');
+                tbody.innerHTML = ''; // Clear existing data
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                         <td>${row.id}</td>
+                         <td>${row.username}</td>
+                         <td>${row.grade}</td>
+                         <td>${row.password}</td>
+                         <td>${row.mail}</td>
+                         <td>${row.numero}</td>
+                          <td>
+                            <button onclick="openModal(${row.id})">Modifier</button>
+                            <button onclick="deleteRow(${row.id})">Supprimer</button>
+                          </td>
+                        `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    // Fonction pour ouvrir la modal de formulaire d'édition
+
+
+    function openModal(id) {
+        editId = id;
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block"; // Affiche la modal
+
+        // Récupérer les détails de l'employé correspondant à l'ID
+        fetch('modifier2.php?id=' + id)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des détails de l\'employé');
+                }
+                return response.json(); // Convertir la réponse en JSON
+            })
+            .then(data => {
+                console.log(data); // Afficher les données récupérées dans la console
+                // Remplir les champs du formulaire avec les détails de l'employé
+                document.getElementById('editName').value = data.username;
+                document.getElementById('editGrade').value = data.grade;
+                document.getElementById('editPassword').value = data.password;
+                document.getElementById('editMail').value = data.mail;
+                document.getElementById('editNumero').value = data.numero;
+            })
+            .catch(error => console.error('Erreur lors de la récupération des détails de l\'employé:', error));
+    }
+
+
+
+    // Fonction pour fermer la modal de formulaire d'édition
+
+    function closeModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none"; // Cache la modal
+    }
+
+
+    //Fonction pour fermer la modal de formualaire d'edition
+
+    function sauvegarder(){
+        var form = document.getElementById("editForm");
+        var formData = new FormData(form);
+        formData.append("id", editId);
+
+        fetch('modifier.php',{
+            method:"POST",
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    // La requête a réussi, faire quelque chose ici si nécessaire
+                    closeModal()
+                    retrieveData();
+                    console.log('Données sauvegardées avec succès !');
+                } else {
+                    // La requête a échoué, gérer l'erreur ici si nécessaire
+                    console.error('Erreur lors de la sauvegarde des données : ', response.status);
+                }
+            })
+            .catch(error => {
+                // Une erreur s'est produite lors de la tentative d'envoi des données
+                console.error('Erreur lors de la tentative de sauvegarde des données : ', error);
+            });
+
+    }
+
+
+    //Fonction qui permet de supprimer une dans le tableau
+
+
+    function deleteRow(id) {
+        fetch(`supprimer.php?id=${id}`, { method: 'GET' })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la suppression de la ligne');
+                }
+                // Actualiser les données après la suppression
+                retrieveData();
+                console.log(`L'entrée avec l'ID ${id} a été supprimée avec succès.`);
+            })
+            .catch(error => console.error('Erreur lors de la suppression de la ligne:', error));
+    }
+
+    function ajouterMembre(){
+        var form = document.getElementById("ajouterForm");
+        var formData = new FormData(form);
+
+        fetch('ajouter.php',{
+            method:"POST",
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    // La requête a réussi, faire quelque chose ici si nécessaire
+                    closeModal2()
+                    retrieveData();
+                    console.log('Données sauvegardées avec succès !');
+                } else {
+                    // La requête a échoué, gérer l'erreur ici si nécessaire
+                    console.error('Erreur lors de la sauvegarde des données : ', response.status);
+                }
+            })
+            .catch(error => {
+                // Une erreur s'est produite lors de la tentative d'envoi des données
+                console.error('Erreur lors de la tentative de sauvegarde des données : ', error);
+            });
+    }
+
+    function openModal2() {
+        var modal2 = document.getElementById("ajouterModal");
+        modal2.style.display = "block";
+    }
+
+    function closeModal2() {
+        var modal2 = document.getElementById("ajouterModal");
+        modal2.style.display = "none"; // Cache la modal
+    }
+
+
+    // Appeler la fonction pour récupérer les données lors du chargement de la page
+    window.onload = retrieveData;
+
+</script>
+</body>
+</html>

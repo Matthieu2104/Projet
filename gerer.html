@@ -88,7 +88,25 @@
         editId = id;
         var modal = document.getElementById("myModal");
         modal.style.display = "block"; // Affiche la modal
-        // Vous pouvez ici charger les données de la ligne avec l'ID spécifié dans le formulaire pour l'édition
+
+        // Récupérer les détails de l'employé correspondant à l'ID
+        fetch('modifier2.php?id=' + id)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des détails de l\'employé');
+                }
+                return response.json(); // Convertir la réponse en JSON
+            })
+            .then(data => {
+                console.log(data); // Afficher les données récupérées dans la console
+                // Remplir les champs du formulaire avec les détails de l'employé
+                document.getElementById('editName').value = data.username;
+                document.getElementById('editGrade').value = data.grade;
+                document.getElementById('editPassword').value = data.password;
+                document.getElementById('editMail').value = data.mail;
+                document.getElementById('editNumero').value = data.numero;
+            })
+            .catch(error => console.error('Erreur lors de la récupération des détails de l\'employé:', error));
     }
 
 
@@ -152,5 +170,4 @@
 </script>
 </body>
 </html>
-
 

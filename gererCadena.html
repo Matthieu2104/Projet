@@ -30,7 +30,7 @@
 <div id="myModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <form id="editForm" method="post" action="modifier.php">
+        <form id="editForm" method="post" action="modifCadena.php">
             <label for="editGrade">Grade:</label>
             <input type="text" id="editGrade" name="editGrade">
             <label for="editAdresse">adresseMac:</label>
@@ -46,7 +46,7 @@
 <div id="ajouterModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close" onclick="closeModal2()">&times;</span>
-        <form id="ajouterForm" method="post" action="ajouter.php">
+        <form id="ajouterForm" method="post" action="ajouterCadena.php">
             <label for="newGrade">Grade:</label>
             <input type="text" id="newGrade" name="newGrade">
             <label for="newAdresse">adresseMac:</label>
@@ -100,7 +100,7 @@
         modal.style.display = "block"; // Affiche la modal
 
         // Récupérer les détails de l'employé correspondant à l'ID
-        fetch('modifeCadena2.php?id=' + id)
+        fetch('modifCadena2.php?id=' + id)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Erreur lors de la récupération des détails de l\'employé');
@@ -133,7 +133,7 @@
         var formData = new FormData(form);
         formData.append("id", editId);
 
-        fetch('modifeCadena.php',{
+        fetch('modifCadena.php',{
             method:"POST",
             body: formData
         })
@@ -160,7 +160,7 @@
 
 
     function deleteRow(id) {
-        fetch(`supprimer.php?id=${id}`, { method: 'GET' })
+        fetch(`supprimerCadena.php?id=${id}`, { method: 'GET' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Erreur lors de la suppression de la ligne');
@@ -176,7 +176,7 @@
         var form = document.getElementById("ajouterForm");
         var formData = new FormData(form);
 
-        fetch('ajouter.php',{
+        fetch('ajouterCadena.php',{
             method:"POST",
             body: formData
         })

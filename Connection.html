@@ -56,8 +56,11 @@
                 const message = data.message;
 
                 if (data.connexion_reussie) {
-                    console.log("Connexion réussie. Bienvenue dans le Fablab.");
+                    if(data.message == 'Admin'){
                     window.location.href = 'dashboard.html';
+                    }else{
+                        window.location.href = 'dashboardMember.html';
+                    }
                 } else {
                     // Placez le message d'erreur en dessous du champ correspondant
                     userErreur.innerText = "Nom d'utilisateur ou mot de passe incorrect";
@@ -72,6 +75,5 @@
 
 </body>
 </html>
-
 
 

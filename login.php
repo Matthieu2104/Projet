@@ -20,7 +20,7 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
 
     try {
         // Utilisation de requêtes préparées pour éviter les injections SQL
-        $sql = "SELECT username, password FROM fablab2024.inscrit WHERE username = :username";
+        $sql = "SELECT username, password, grade FROM fablab2024.inscrit WHERE username = :username";
         $requete = $pdo->prepare($sql);
         $requete->bindParam(':username', $username, PDO::PARAM_STR);
         $requete->execute();
@@ -38,6 +38,7 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
             if ($row['password'] === $password) {
                 // Le nom d'utilisateur et le mot de passe sont valides
                 $connexion_reussie = true;
+                $grade = $row['grade']; // Récupérer le grade de l'utilisateur
             }
         }
 
@@ -45,7 +46,12 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
         if ($connexion_reussie) {
             session_start();
             $_SESSION['username'] = $username;
-            echo json_encode(array("connexion_reussie" => true, "message" => "Connexion reussie. Bienvenue dans le Fablab $username."));
+            if ($grade=='Admin'){
+                echo json_encode(array("connexion_reussie" => true, "message" => "Admin"));
+            }else{
+                echo json_encode(array("connexion_reussie" => true, "message" => "Connexion"));
+            }
+
         } else {
             echo json_encode(array("connexion_reussie" => false, "message" => "Nom utilisateur ou mot de passe incorrect."));
         }
@@ -61,4 +67,4 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
     // Les champs n'ont pas été envoyés
     echo json_encode(array("connexion_reussie" => false, "message" => "Champs manquants."));
 }
-?>
+?> 

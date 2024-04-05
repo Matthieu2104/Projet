@@ -7,33 +7,48 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <div class="dashboard">
-        <nav class="sidebar">
-            <h2>Menu</h2>
-            <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">gerer utilisateur</a></li>
-                <!-- Ajoutez d'autres liens selon vos besoins -->
-            </ul>
-        </nav>
-        <div class="content">
-            <header>
-                <h1>Dashboard</h1>
-            </header>
-            <section class="vignettes">
-                <div class="vignette">
-                    <!-- Ajoutez votre contenu de statistique ici -->
-                    <h2>Temps</h2>
-                    <p>info</p>
-                </div>
-                <div class="vignette">
-                    <!-- Ajoutez votre contenu de statistique ici -->
-                    <h2>passage</h2>
-                    <p>info</p>
-                </div>
-                <!-- Ajoutez d'autres vignettes selon vos besoins -->
-            </section>
-        </div>
+<div class="dashboard">
+    <nav class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="Acceuil.html">Accueil</a></li>
+            <li><a href="gerer.html">gerer utilisateur</a></li>
+            <li><a href="gererCadena.html">gerer cadenas</a></li>
+            <!-- Ajoutez d'autres liens selon vos besoins -->
+        </ul>
+    </nav>
+    <div class="content">
+        <header>
+            <h1>Dashboard</h1>
+        </header>
+        <section class="vignettes">
+            <div id="temps" class="vignette">
+                <!-- Ajoutez votre contenu de statistique ici -->
+                <h2>Temps</h2>
+                <p>info</p>
+            </div>
+            <div id="passage" class="vignette">
+                <!-- Ajoutez votre contenu de statistique ici -->
+                <h2>passage</h2>
+                <p>info</p>
+            </div>
+            <!-- Ajoutez d'autres vignettes selon vos besoins -->
+        </section>
     </div>
+    <script>
+        fetch('dashboard.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const tempsVignette = document.querySelector('#temps p');
+                tempsVignette.innerHTML = `Temps passé sur le site : ${data.temps} minutes`;
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</div>
 </body>
 </html>

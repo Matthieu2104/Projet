@@ -3,52 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Accueil.css">
+    <link rel="stylesheet" href="Accueil1.css">
     <title>FabLab</title>
 </head>
 <body>
     <div class="navbar">
-        <div class="logo">
-            <img src="image/FABLABCORP.png" alt="Logo FabLab">
+        <div class="navbar-logo">
+            <img src="image/Ressource/Logo1.png" alt="Votre Logo">
         </div>
-        <div class="test">
-            <h1>Votre FabLab</h1>
-        </div>
-        <div class="nav-buttons">
-            <a href="Connection.html" class="button">Se connecter</a>
-            <a href="Inscrire.html" class="button">S'inscrire</a>
-            <a href="contact.html" class="button">Contacter</a>
+        <div class="test-logo"></div>
+        <div class="navbar-buttons">
+            <button class="acceuil" onclick="redirigerAccueil()">ACCUEIL</button>
+            <button class="connexion" onclick="redirigerConnexion()">CONNEXION</button>
+            <button class="contact" onclick="redirigerContact()">CONTACT</button>
         </div>
     </div>
     <div class="container">
+        <section class="image-mid"></section>
         <header>
-            <h1>FabLab</h1>
-            <p>Transformez vos idées en réalité</p>
+            <h1 class="GrosTitre">FabLab</h1>
+            <div class="haut-image">
+                <p class="haut-text">TRANSFORMER VOS IDEES</p>
+                <p class="haut-droite-text">EN REALITE</p>
+                <div class="ligne-horizontal"></div>
+            </div>
         </header>
-    
-        <section class="animation-section">
-            <div class="animation-container">
-                <div class="animation-content">
-                    <h2>Créativité illimitée</h2>
-                    <p>Explorez, concevez, fabriquez</p>
-                </div>
-            </div>
+
+        <div class="image">
+            <img src="image/Ressource/01.jpg">
+        </div>
+
+        <div class="gauche-image">
+            <p class="gauche-text">CREATIVITE ILLIMITE</p>
+            <div class="ligne-vertical-gauche"></div>
+        </div>
+
+        <div class="droite-image">
+            <p class="droite-text">EXPLOREZ CONCEVEZ, FABRIQUEZ</p>
+            <div class="ligne-vertical-droite"></div>
+        </div>
+        <div class="fond-noir"></div>
+
         </section>
+
         <section class="features">
-            <div class="feature">
-                <h3>Équipement de pointe</h3>
-                <p>Utilisez les dernières technologies pour concrétiser vos projets.</p>
-            </div>
-            <div class="feature">
-                <h3>Communauté collaborative</h3>
-                <p>Partagez des idées et collaborez avec d'autres passionnés.</p>
-            </div>
-            <div class="feature">
-                <h3>Formations spécialisées</h3>
-                <p>Apprenez de nouvelles compétences pour maximiser votre créativité.</p>
-            </div>
+
+                <div class="feature">
+                    <img src="image/Ressource/RessourcePicto-03.png">
+                    <h3>Équipement de pointe</h3>
+                    <p>Utilisez les dernières technologies pour concrétiser vos projets.</p>
+                </div>
+
+                <div class="feature">
+                    <img src="image/Ressource/RessourcePicto-02.png">
+                    <h3>Formations spécialisées</h3>
+                    <p>Apprenez de nouvelles compétences pour maximiser votre créativité.</p>
+                </div>
+
+                <div class="feature">
+                    <img src="image/Ressource/RessourcePicto-04.png">
+                    <h3>Communauté collaborative</h3>
+                    <p>Partagez des idées et collaborez avec d'autres passionnés.</p>
+                </div>
         </section>
+
+
+        <div class="titre-reseaux">
+            <h3>Reseau sociaux</h3>
+        </div>
+        
+        <div class="reseau">
+        
+            <a href="https://www.facebook.com/">
+                <img class="facebook" src="image/Ressource/facebook.png" alt="facebook">
+            </a>
+        
+            <a href="https://twitter.com/">
+                <img src="image/Ressource/twitter.png" alt="twitter">
+            </a>
+        
+            <a href="https://www.instagram.com/">
+                <img src="image/Ressource/insta.png" alt="insta">
+            </a>
+        
+            <a href="https://www.tiktok.com/">
+                <img src="image/Ressource/tiktok.png" alt="tiktok">
+            </a>
+        
+            <a href="https://www.youtube.com/">
+                <img class="youtube" src="image/Ressource/youtube.png" alt="youtube">
+            </a>
+        </div>
+        
+        <div class="ligne"></div>
+        
+        <div class="droit">
+            <p>FAB LAB, Inc  - Tous droits réservés</p>
+        </div>
     </div>
-    <script src="app.js"></script>
+    <script>
+    function redirigerAccueil() {
+        window.location.href = "Acceuil.html";
+    }
+    
+    function redirigerConnexion() {
+        window.location.href = "Connection.html";
+    }
+    
+    function redirigerContact() {
+        window.location.href = "contact.html";
+    }
+    
+    function redirigerCree() {
+        window.location.href = "Inscrire.html";
+    }
+    </script>
 </body>
 </html>

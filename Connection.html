@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire de Connexion FabLab</title>
+    <title>Votre Titre</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="form-container">
-    <h1>Se connecter</h1>
+<div class="navbar">
+    <div class="navbar-logo">
+        <img src="image/Ressource/Logo1.png" alt="Votre Logo">
+    </div>
+    <div class="test-logo"></div>
+    <div class="navbar-buttons">
+        <button class="acceuil" onclick="redirigerAccueil()">ACCUEIL</button>
+        <button class="connexion" onclick="redirigerConnexion()">CONNEXION</button>
+        <button class="contact" onclick="redirigerContact()">CONTACT</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="form-container">
     <form id="loginForm" method="post" action="login.php">
 
         <div class="form-group">
@@ -32,11 +44,47 @@
 
             <p id="password-erreur" class="erreur-message"></p>
             <p class="forgot-password"><a href="Forgot-Password.html">Mot de passe oublié ?</a></p>
-            <p class="create-account"><a href="Inscrire.html">Créer un compte</a></p>
         </div>
 
-        <button type="button" onclick="envoyer()">Connexion</button>
+        <div class="button-container">
+            <button type="button" class="button-connexion" onclick="envoyer()">Connexion</button>
+            <button type="button" class="create-account-button" onclick="redirigerCree()">Créer un compte</button>
+        </div>
+
     </form>
+    </div>
+</div>
+<div class="titre-reseaux">
+    <h3>Reseau sociaux</h3>
+</div>
+
+<div class="reseau">
+
+    <a href="https://www.facebook.com/">
+        <img class="facebook" src="image/Ressource/facebook.png" alt="facebook">
+    </a>
+
+    <a href="https://twitter.com/">
+        <img src="image/Ressource/twitter.png" alt="twitter">
+    </a>
+
+    <a href="https://www.instagram.com/">
+        <img src="image/Ressource/insta.png" alt="insta">
+    </a>
+
+    <a href="https://www.tiktok.com/">
+        <img src="image/Ressource/tiktok.png" alt="tiktok">
+    </a>
+
+    <a href="https://www.youtube.com/">
+        <img class="youtube" src="image/Ressource/youtube.png" alt="youtube">
+    </a>
+</div>
+
+<div class="ligne-horizontal"></div>
+
+<div class="droit">
+    <p>FAB LAB, Inc  - Tous droits réservés</p>
 </div>
 
 <script>
@@ -71,6 +119,24 @@
                 console.error('Erreur lors de la requête :', error);
             });
     }
+    function redirigerAccueil() {
+    window.location.href = "Acceuil.html";
+}
+
+function redirigerConnexion() {
+    window.location.href = "Connection.html";
+}
+
+function redirigerContact() {
+    window.location.href = "contact.html";
+}
+
+function redirigerCree() {
+    window.location.href = "Inscrire.html";
+}
+
+
+
 </script>
 
 </body>

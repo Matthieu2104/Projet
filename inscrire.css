@@ -1,0 +1,212 @@
+/* Réinitialisation des styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style de base */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F5F5F5;
+}
+
+                                /* Style de la barre de navigation */
+.navbar {
+    color: #fff;
+    display: flex;
+    align-items: center; /* Ajuster pour aligner le contenu en haut */
+    padding: 10px 20px;
+    position: relative;
+}
+
+.navbar-logo img {
+    height: 60px; /* Ajuster la hauteur du logo */
+}
+.navbar-logo {
+    position: relative;
+    top: -3px;
+}
+.test-logo::before{
+    content: "Fablab";
+    position: absolute;
+    font-family:bold;
+    font-size: 12px;
+    font-weight: bold;
+    top: 50%;
+    padding: 10px;
+    color: #000000;
+    left: 55px; /* Pour le positionner sur le côté gauche de la boîte */
+    transform: translateY(-35%) rotate(-90deg);
+    background: none;
+    border: none; /* Retirer la bordure */
+    border-radius: 0; /* Retirer le bord arrondi */
+
+}
+.navbar-buttons{
+    position: absolute;
+    left: 33%;
+    background-color: #ffffff;
+    background:none;
+    
+}
+
+.acceuil{
+    padding: 25px 30px; /* Augmenter la taille du padding pour agrandir la surface du bouton */
+    font-size: 20px; /* Augmenter la taille de la police pour agrandir le texte du bouton */
+    background-color: #ffffff;
+    color:#000000;
+    border: none;
+    
+}
+
+.connexion{
+    margin-left: -5px;
+    margin-bottom: 1px;
+    padding: 25px 30px; /* Augmenter la taille du padding pour agrandir la surface du bouton */
+    font-size: 20px; /* Augmenter la taille de la police pour agrandir le texte du bouton */
+    background-color: #000000;
+    color:#ffffff;
+    border: none;
+}
+
+.contact{
+    margin-left: -5px;
+    padding: 25px 30px; /* Augmenter la taille du padding pour agrandir la surface du bouton */
+    font-size: 20px; /* Augmenter la taille de la police pour agrandir le texte du bouton */
+    background-color: #ffffff;
+    color:#000000;
+    border: none;
+}
+
+.acceuil:hover,
+.connexion:hover,
+.contact:hover,
+.button-connexion:hover,
+.create-account-button:hover {
+    text-decoration: underline;
+}
+
+                                /* Style de la boîte de formulaire */
+.form-container {
+    width: 600px;
+    height: auto;
+    margin: 50px auto;
+    padding: 50px;
+    position: relative; /* Position relative pour que les pseudo-éléments soient positionnés par rapport à ce conteneur */
+    border: none;
+    border-radius: 0 0px 0px 0; /* Arrondi uniquement sur le coin inférieur gauche */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #F5F5F5;
+ 
+}
+
+.form-container::before
+{
+    content: "S'inscrire";
+    position: absolute;
+    font-family:bold;
+    font-size: 45px;
+    font-weight: bold;
+    top: 50%;
+    padding: 10px;
+    color: #000000;
+    left: 5px; /* Pour le positionner sur le côté gauche de la boîte */
+    transform: translateY(-365%);
+    background: none;
+    border: none; /* Retirer la bordure */
+    border-radius: 0; /* Retirer le bord arrondi */
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+}
+
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.input-container {
+    position: relative;
+}
+
+.input-container .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    background-color: #F5F5F5; /* icon dans les champs*/
+}
+
+.input-container input {
+    padding-left: 30px;
+    width: calc(100% - 40px);
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.bouton-inscrire{
+    background-color: #D9D9D9;
+    color: #000000;
+}
+
+
+.button-container {
+    text-align: center;
+}
+
+.button-container button {
+    padding: 20px 55px;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-connexion{
+    margin-left: 30px; /* Augmenter la marge entre les boutons si nécessaire */
+    background: none;
+}
+
+
+
+.erreur-message {
+    color: red;
+}
+
+.reseau img{
+    margin-top: 5px;
+    width: 45px;
+    height: 45px;
+}
+.reseau .facebook{
+    margin-left: 50px;
+}
+
+.reseau a {
+    text-decoration: none; /* Supprime le soulignement du lien */
+    color: inherit; /* Assurez-vous que la couleur du texte reste la même que celle de son parent */
+}
+
+.ligne-horizontal {
+    position: relative;
+    border-top: 2px solid black; /* Définir une bordure supérieure de 2 pixels solide en noir */
+    margin-bottom: 20px; /* Ajouter une marge en bas pour l'espace */
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.droit {
+    position: absolute;
+    right: 0;
+    margin-right: 50px;
+}
+
+.titre-reseaux h3{
+    margin-left: 50px;
+    
+}

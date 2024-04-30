@@ -4,13 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire d'Inscription FabLab</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="inscrire.css">
 </head>
 <body>
 
+    <div class="navbar">
+        <div class="navbar-logo">
+            <img src="image/Ressource/Logo1.png" alt="Votre Logo">
+        </div>
+        <div class="test-logo"></div>
+        <div class="navbar-buttons">
+            <button class="acceuil" onclick="redirigerAccueil()">ACCUEIL</button>
+            <button class="connexion" onclick="redirigerConnexion()">CONNEXION</button>
+            <button class="contact" onclick="redirigerContact()">CONTACT</button>
+        </div>
+    </div>
+
 <div class="form-container">
-    <h1>S'inscrire</h1>
-    <form id="insForm" action="inscrit.php" method="post">
+    <form action="#" method="post">
 
         <div class="form-group">
             <label for="username" class="hidden"></label>
@@ -51,93 +62,153 @@
             <p id="confirmPassword-erreur" class="erreur-message"></p>
 
         </div>
-        <button type="button" onclick="inscription()">S'inscrire</button>
+        <div class="button-container">
+        <button class="bouton-inscrire" type="button" onclick="inscription()">S'inscrire</button>
+        <button type="button" class="button-connexion" onclick="redirigerConnexion()">Déjà un compte?</button>
+        </div>
     </form>
 </div>
+
+<div class="titre-reseaux">
+    <h3>Reseau sociaux</h3>
+</div>
+
+<div class="reseau">
+
+    <a href="https://www.facebook.com/">
+        <img class="facebook" src="image/Ressource/facebook.png" alt="facebook">
+    </a>
+
+    <a href="https://twitter.com/">
+        <img src="image/Ressource/twitter.png" alt="twitter">
+    </a>
+
+    <a href="https://www.instagram.com/">
+        <img src="image/Ressource/insta.png" alt="insta">
+    </a>
+
+    <a href="https://www.tiktok.com/">
+        <img src="image/Ressource/tiktok.png" alt="tiktok">
+    </a>
+
+    <a href="https://www.youtube.com/">
+        <img class="youtube" src="image/Ressource/youtube.png" alt="youtube">
+    </a>
+
+    <div class="ligne-horizontal"></div>
+
+<div class="droit">
+    <p>FAB LAB, Inc  - Tous droits réservés</p>
+</div>
+
+</div>
+
+
+
+
 <script>
-    function inscription() {
-        var user = document.getElementById("username").value;
-        var pass = document.getElementById("password").value;
-        var mail = document.getElementById("email").value;
-        var confirm = document.getElementById("confirm-password").value;
+function inscription() {
+    var user = document.getElementById("username").value;
+    var pass = document.getElementById("password").value;
+    var mail = document.getElementById("email").value;
+    var confirm = document.getElementById("confirm-password").value;
 
-        const userErreur = document.getElementById("user-erreur");
-        const passErreur = document.getElementById("password-erreur");
-        const emailErreur = document.getElementById("email-erreur");
-        const confPassErreur = document.getElementById("confirmPassword-erreur");
+    const userErreur = document.getElementById("user-erreur");
+    const passErreur = document.getElementById("password-erreur");
+    const emailErreur = document.getElementById("email-erreur");
+    const confPassErreur = document.getElementById("confirmPassword-erreur");
 
-        var form = document.getElementById("insForm");
-        var formData = new FormData(form);
+    var MdpRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&/+\-.,])[A-Za-z\d@$!%*?&/+\-.,]{8,}$/;
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        var MdpRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&/+\-.,])[A-Za-z\d@$!%*?&/+\-.,]{8,}$/;
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        // Vérif user
-        if (user === "") {
-            userErreur.innerText = "Le champ est vide";
-            return;
-        } else {
-            userErreur.innerText = "";
-        }
-
-        // Vérif email
-
-        if (mail === "") {
-            emailErreur.innerText = "Le champ est vide";
-            return;
-        } else if (!emailRegex.test(mail)){
-            emailErreur.innerText = "Veuillez entrer une email valide"
-
-        }else {
-            emailErreur.innerText = "";
-        }
-
-        // Verif mot de passe
-
-        if (pass === "") {
-            passErreur.innerText = "Le champ est vide";
-            return;
-
-        } else if (!MdpRegex.test(pass)) {
-            passErreur.innerText = "Il faut au moins 8 caractere,1 chiffre,1 majuscule, miniscule et 1 caractere speciaux dans votre mot de passe";
-            return;
-        } else {
-            passErreur.innerText = "";
-        }
-        //Vérif confirm mdp
-        if (confirm === "") {
-            confPassErreur.innerText = "Le champ est vide";
-            return;
-        }else if (confirm !== pass) {
-            confPassErreur.innerText = "Les mots de passe ne correspondent pas";
-            return;
-        } else {
-            confPassErreur.innerText = "";
-        }
-
-        console.log(formData);
-        fetch('inscrit.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-
-                console.log('Réponse de:', data);
-                const message = data.message;
-
-                if (message === "inscription valider") {
-                    console.log("inscription valider !");
-                    window.location.href = 'Connection.html';
-                } else {
-                    console.log("echec de l'inscription")
-                }
-            })
-
-            .catch(error => {
-                console.error('Erreur lors de la requête :', error);
-            });
+                                    // Vérif user 
+    if (user === "") {
+        userErreur.innerText = "Le champ est vide";
+        return;
+    } else {
+        userErreur.innerText = "";
     }
+
+                                    // Vérif email
+
+    if (mail === "") {
+        emailErreur.innerText = "Le champ est vide";
+        return;
+    } else if (!emailRegex.test(mail)){
+        emailErreur.innerText = "Veuillez entrer une email valide"
+
+    }else {
+        emailErreur.innerText = "";
+    }
+
+                                    // Verif mot de passe
+
+    if (pass === "") {
+        passErreur.innerText = "Le champ est vide";
+        return;
+
+    } else if (!MdpRegex.test(pass)) {
+        passErreur.innerText = "Il faut au moins 8 caractere,1 chiffre,1 majuscule, miniscule et 1 caractere speciaux dans votre mot de passe";
+        return;
+    } else {
+        passErreur.innerText = "";
+    }
+                                      //Vérif confirm mdp
+    if (confirm === "") {
+        confPassErreur.innerText = "Le champ est vide";
+        return;
+    }else if (confirm !== pass) {
+        confPassErreur.innerText = "Les mots de passe ne correspondent pas";
+        return;
+    } else {
+        confPassErreur.innerText = "";
+    }
+    var donne = {
+            user: user,
+            pass: pass,
+            mail:mail
+        };
+    fetch('https://57d1313e-8972-40f3-82bb-3749f6d90a81.mock.pstmn.io?', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+
+            body: JSON.stringify(donne)
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            console.log('Réponse de:', data);
+            const message = data.message;
+
+            if (message === "inscription valider") {
+                console.log("inscription valider !");
+                window.location.href = 'Connection.html';
+            } else {
+                console.log("echec de l'inscription")
+            }
+        })
+
+        .catch(error => {
+            console.error('Erreur lors de la requête :', error);
+        });
+}
+
+function redirigerAccueil() {
+    window.location.href = "Acceuil.html";
+}
+
+function redirigerConnexion() {
+    window.location.href = "Connection.html";
+}
+
+function redirigerContact() {
+    window.location.href = "contact.html";
+}
+
+
+
 </script>
 </body>
 </html>

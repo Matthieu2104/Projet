@@ -47,52 +47,35 @@
         </section>
 
         <section class="features">
+            <div class="feature">
+                <img src="image/Ressource/RessourcePicto-03.png">
+                <h3>Équipement de pointe</h3>
+                <p>Utilisez les dernières technologies pour concrétiser vos projets.</p>
+            </div>
 
-                <div class="feature">
-                    <img src="image/Ressource/RessourcePicto-03.png">
-                    <h3>Équipement de pointe</h3>
-                    <p>Utilisez les dernières technologies pour concrétiser vos projets.</p>
-                </div>
+            <div class="feature">
+                <img src="image/Ressource/RessourcePicto-02.png">
+                <h3>Formations spécialisées</h3>
+                <p>Apprenez de nouvelles compétences pour maximiser votre créativité.</p>
+            </div>
 
-                <div class="feature">
-                    <img src="image/Ressource/RessourcePicto-02.png">
-                    <h3>Formations spécialisées</h3>
-                    <p>Apprenez de nouvelles compétences pour maximiser votre créativité.</p>
-                </div>
-
-                <div class="feature">
-                    <img src="image/Ressource/RessourcePicto-04.png">
-                    <h3>Communauté collaborative</h3>
-                    <p>Partagez des idées et collaborez avec d'autres passionnés.</p>
-                </div>
+            <div class="feature">
+                <img src="image/Ressource/RessourcePicto-04.png">
+                <h3>Communauté collaborative</h3>
+                <p>Partagez des idées et collaborez avec d'autres passionnés.</p>
+            </div>
         </section>
-
 
         <div class="titre-reseaux">
             <h3>Reseau sociaux</h3>
         </div>
         
         <div class="reseau">
-        
-            <a href="https://www.facebook.com/">
-                <img class="facebook" src="image/Ressource/facebook.png" alt="facebook">
-            </a>
-        
-            <a href="https://twitter.com/">
-                <img src="image/Ressource/twitter.png" alt="twitter">
-            </a>
-        
-            <a href="https://www.instagram.com/">
-                <img src="image/Ressource/insta.png" alt="insta">
-            </a>
-        
-            <a href="https://www.tiktok.com/">
-                <img src="image/Ressource/tiktok.png" alt="tiktok">
-            </a>
-        
-            <a href="https://www.youtube.com/">
-                <img class="youtube" src="image/Ressource/youtube.png" alt="youtube">
-            </a>
+            <a href="https://www.facebook.com/"> <img class="facebook" src="image/Ressource/facebook.png" alt="facebook"></a>
+            <a href="https://twitter.com/"> <img src="image/Ressource/twitter.png" alt="twitter"></a>
+            <a href="https://www.instagram.com/"> <img src="image/Ressource/insta.png" alt="insta"></a>
+            <a href="https://www.tiktok.com/"> <img src="image/Ressource/tiktok.png" alt="tiktok"></a>
+            <a href="https://www.youtube.com/"> <img class="youtube" src="image/Ressource/youtube.png" alt="youtube"></a>
         </div>
         
         <div class="ligne"></div>
@@ -101,22 +84,36 @@
             <p>FAB LAB, Inc  - Tous droits réservés</p>
         </div>
     </div>
+    <section class="contact">
+        <div class="Haut-contact">
+            <h1 class="titreContact">Nous Contacter</h1>
+        </div>
+    </section>
+
     <script>
-    function redirigerAccueil() {
-        window.location.href = "Acceuil.html";
+        function redirigerAccueil() {
+    window.location.href = "Acceuil.html";
     }
-    
+
     function redirigerConnexion() {
         window.location.href = "Connection.html";
     }
-    
+
     function redirigerContact() {
         window.location.href = "contact.html";
     }
-    
-    function redirigerCree() {
-        window.location.href = "Inscrire.html";
-    }
+
+
+
+        // Récupérer l'URL actuelle
+        var url = window.location.href;
+
+        // Remplacer "accueil.html" par "/"
+        var cleanUrl = url.replace(/\/Accueil\.html$/, '/Accueil');
+
+        // Mettre à jour l'URL dans la barre d'adresse
+        history.replaceState({}, '', cleanUrl);
     </script>
 </body>
 </html>
+

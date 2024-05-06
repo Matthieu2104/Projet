@@ -33,7 +33,7 @@
 <div id="myModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <form id="editForm" method="post" action="modifier.php">
+        <form id="editForm" method="post" action="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/modifier.php">
             <label for="editName">Name:</label>
             <input type="text" id="editName" name="editName">
             <label for="editGrade">Grade:</label>
@@ -55,7 +55,7 @@
 <div id="ajouterModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close" onclick="closeModal2()">&times;</span>
-        <form id="ajouterForm" method="post" action="ajouter.php">
+        <form id="ajouterForm" method="post" action="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/ajouter.php">
             <label for="newName">Name:</label>
             <input type="text" id="newName" name="newName">
             <label for="newGrade">Grade:</label>
@@ -79,7 +79,7 @@
     let editId = null;
     // Fonction pour récupérer les données depuis le fichier PHP
     function retrieveData() {
-        fetch('gerer.php')
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/gerer.php')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -118,7 +118,7 @@
         modal.style.display = "block"; // Affiche la modal
 
         // Récupérer les détails de l'employé correspondant à l'ID
-        fetch('modifier2.php?id=' + id)
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/modifier2.php?id=' + id)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Erreur lors de la récupération des détails de l\'employé');
@@ -154,7 +154,7 @@
         var formData = new FormData(form);
         formData.append("id", editId);
 
-        fetch('modifier.php',{
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/modifier.php',{
             method:"POST",
             body: formData
         })
@@ -181,7 +181,7 @@
 
 
     function deleteRow(id) {
-        fetch(`supprimer.php?id=${id}`, { method: 'GET' })
+        fetch(`http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/supprimer.php?id=${id}`, { method: 'GET' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Erreur lors de la suppression de la ligne');
@@ -197,7 +197,7 @@
         var form = document.getElementById("ajouterForm");
         var formData = new FormData(form);
 
-        fetch('ajouter.php',{
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/ajouter.php',{
             method:"POST",
             body: formData
         })
@@ -229,10 +229,19 @@
     }
 
 
+    // Récupérer l'URL actuelle
+    var url = window.location.href;
+
+    // Remplacer "accueil.html" par "/"
+    var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/gerer\.html$/, '/gerer');
+
+    // Mettre à jour l'URL dans la barre d'adresse
+    history.replaceState({}, '', cleanUrl);
+    
+
     // Appeler la fonction pour récupérer les données lors du chargement de la page
     window.onload = retrieveData;
 
 </script>
 </body>
 </html>
-

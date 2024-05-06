@@ -41,7 +41,6 @@ void sendToPHP(String data) {
     Serial.println("Connexion établie avec le serveur PHP");
 
     client.print("POST /btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/recupArduino.php HTTP/1.1\r\n");
-    client.println(" HTTP/1.1");
     client.print("Host: ");
     client.println(serverAddress);
     client.println("Connection: close");

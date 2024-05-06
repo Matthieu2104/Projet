@@ -7,95 +7,58 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <div class="dashboard">
-        <nav class="sidebar">
-            <h2>Menu</h2>
-            <ul>
-                <li><a href="Acceuil.html">Accueil</a></li>
-                <li><a href="gerer.html">gerer utilisateur</a></li>
-                <li><a href="gererCadena.html">gerer cadenas</a></li>
-                <!-- Ajoutez d'autres liens selon vos besoins -->
-            </ul>
-        </nav>
-        <div class="content">
-            <header>
-                <h1>Dashboard</h1>
-            </header>
-            <section class="vignettes">
-                <div id="temps" class="vignette">
-                    <!-- Ajoutez votre contenu de statistique ici -->
-                    <h2>Temps</h2>
-                    <p>info</p>
-                </div>
-                <div id="passage" class="vignette">
-                    <!-- Ajoutez votre contenu de statistique ici -->
-                    <h2>passage</h2>
-                    <p>info</p>
-                </div>
-                <!-- Ajoutez d'autres vignettes selon vos besoins -->
-            </section>
-            <h2>Tableau de Fréquentation</h2>
-            <div>
-                <label for="datePicker">Choisir une date :</label>
-                <input type="date" id="datePicker">
-                <button id="fetchButton">Afficher la fréquentation</button>
+<div class="dashboard">
+    <nav class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/Accueil.html">Accueil</a></li>
+            <li><a href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/gerer.html">gerer utilisateur</a></li>
+            <li><a href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/gererCadena.html">gerer cadenas</a></li>
+            <!-- Ajoutez d'autres liens selon vos besoins -->
+        </ul>
+    </nav>
+    <div class="content">
+        <header>
+            <h1>Dashboard</h1>
+        </header>
+        <section class="vignettes">
+            <div id="temps" class="vignette">
+                <!-- Ajoutez votre contenu de statistique ici -->
+                <h2>Temps</h2>
+                <p>info</p>
             </div>
-
-            <table id="tableauFrequentation" style="border-collapse: collapse; width: 100%; border: 2px solid black;">
-                <thead>
-                    <tr>
-                        <th>8h30-10h30</th>
-                        <th>10h30-12h30</th>
-                        <th>12h30-14h00</th>
-                        <th>14h00-16h00</th>
-                        <th>16h00-18h00</th>
-                        <th>18h00-23h00</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>50</td>
-                        <td>100</td>
-                        <td>200</td>
-                        <td>150</td>
-                        <td>600</td>
-                        <td>20</td>
-                    </tr>
-                    <!-- Vous pouvez ajouter plus de lignes ici selon vos données -->
-                </tbody>
-            </table>
-        </div>
+            <div id="passage" class="vignette">
+                <!-- Ajoutez votre contenu de statistique ici -->
+                <h2>passage</h2>
+                <p>info</p>
+            </div>
+            <!-- Ajoutez d'autres vignettes selon vos besoins -->
+        </section>
     </div>
     <script>
-        document.getElementById('fetchButton').addEventListener('click', function() {
-            const selectedDate = document.getElementById('datePicker').value;
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/dashboard.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const tempsVignette = document.querySelector('#temps p');
+                tempsVignette.innerHTML = `Temps passé sur le site : ${data.temps} minutes`;
+            })
+            .catch(error => console.error('Error fetching data:', error));
 
-            fetch('dashboard.php?date=' + selectedDate)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Supprimer les anciennes données de fréquentation
-                    const tableauFrequentation = document.getElementById('tableauFrequentation');
-                    tableauFrequentation.querySelector('tbody').innerHTML = '';
+             // Récupérer l'URL actuelle
+            var url = window.location.href;
 
-                    // Insérer les nouvelles données de fréquentation dans le tableau
-                    const frequentation = data.frequentation; // Supposons que vos données de fréquentation sont dans un tableau nommé frequentation
-                    frequentation.forEach(rowData => {
-                        const row = document.createElement('tr');
-                        rowData.forEach(cellData => {
-                            const cell = document.createElement('td');
-                            cell.textContent = cellData;
-                            row.appendChild(cell);
-                        });
-                        tableauFrequentation.querySelector('tbody').appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        });
+            // Remplacer "accueil.html" par "/"
+            var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/dashboard\.html$/, '/dashboard');
+
+            // Mettre à jour l'URL dans la barre d'adresse
+            history.replaceState({}, '', cleanUrl);
+                
     </script>
+</div>
 </body>
 </html>

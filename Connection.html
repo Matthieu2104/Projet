@@ -22,36 +22,36 @@
 
 <div class="container">
     <div class="form-container">
-    <form id="loginForm" method="post" action="login.php">
+        <form id="loginForm" method="post" action="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/login.php">
 
-        <div class="form-group">
-            <label for="username" class="hidden"></label>
-            <div class="input-container">
-                <div class="icon"></div>
-                <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required>
+            <div class="form-group">
+                <label for="username" class="hidden"></label>
+                <div class="input-container">
+                    <div class="icon"></div>
+                    <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required>
+                </div>
+
+                <p id="user-erreur" class="erreur-message"></p>
+
             </div>
 
-            <p id="user-erreur" class="erreur-message"></p>
+            <div class="form-group">
+                <label for="password" class="hidden"></label>
+                <div class="input-container">
+                    <div class="icon password-icon"></div>
+                    <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                </div>
 
-        </div>
-
-        <div class="form-group">
-            <label for="password" class="hidden"></label>
-            <div class="input-container">
-                <div class="icon password-icon"></div>
-                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                <p id="password-erreur" class="erreur-message"></p>
+                <p class="forgot-password"><a href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/Forgot-Password.html">Mot de passe oublié ?</a></p>
             </div>
 
-            <p id="password-erreur" class="erreur-message"></p>
-            <p class="forgot-password"><a href="Forgot-Password.html">Mot de passe oublié ?</a></p>
-        </div>
+            <div class="button-container">
+                <button type="button" class="button-connexion" onclick="envoyer()">Connexion</button>
+                <button type="button" class="create-account-button" onclick="redirigerCree()">Créer un compte</button>
+            </div>
 
-        <div class="button-container">
-            <button type="button" class="button-connexion" onclick="envoyer()">Connexion</button>
-            <button type="button" class="create-account-button" onclick="redirigerCree()">Créer un compte</button>
-        </div>
-
-    </form>
+        </form>
     </div>
 </div>
 <div class="titre-reseaux">
@@ -92,7 +92,7 @@
         var form = document.getElementById("loginForm");
         var formData = new FormData(form);
 
-        fetch('login.php', {
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/login.php', {
             method: 'POST',
             body: formData
         })
@@ -105,9 +105,9 @@
 
                 if (data.connexion_reussie) {
                     if(data.message == 'Admin'){
-                    window.location.href = 'dashboard.html';
+                        window.location.href = 'http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/dashboard.html';
                     }else{
-                        window.location.href = 'dashboardMember.html';
+                        window.location.href = 'http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/dashboardMember.html';
                     }
                 } else {
                     // Placez le message d'erreur en dessous du champ correspondant
@@ -120,22 +120,29 @@
             });
     }
     function redirigerAccueil() {
-    window.location.href = "Acceuil.html";
-}
+        window.location.href = "http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/Accueil.html";
+    }
 
-function redirigerConnexion() {
-    window.location.href = "Connection.html";
-}
+    function redirigerConnexion() {
+        window.location.href = "http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/Connection.html";
+    }
 
-function redirigerContact() {
-    window.location.href = "contact.html";
-}
+    function redirigerContact() {
+        window.location.href = "contact.html";
+    }
 
-function redirigerCree() {
-    window.location.href = "Inscrire.html";
-}
+    function redirigerCree() {
+        window.location.href = "http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/Inscrire.html";
+    }
 
+        // Récupérer l'URL actuelle
+        var url = window.location.href;
 
+        // Remplacer "accueil.html" par "/"
+        var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/Connection\.html$/, '/Connection');
+
+        // Mettre à jour l'URL dans la barre d'adresse
+        history.replaceState({}, '', cleanUrl);
 
 </script>
 

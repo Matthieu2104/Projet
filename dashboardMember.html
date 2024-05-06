@@ -11,7 +11,7 @@
     <nav class="sidebar">
         <h2>Menu</h2>
         <ul>
-            <li><a href="Acceuil.html">Accueil</a></li>
+            <li><a href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/Accueil.html">Accueil</a></li>
             <!-- Ajoutez d'autres liens selon vos besoins -->
         </ul>
     </nav>
@@ -34,7 +34,7 @@
         </section>
     </div>
     <script>
-        fetch('dashboard.php')
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/dashboard.php')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -46,6 +46,16 @@
                 tempsVignette.innerHTML = `Temps passé sur le site : ${data.temps} minutes`;
             })
             .catch(error => console.error('Error fetching data:', error));
+
+            // Récupérer l'URL actuelle
+            var url = window.location.href;
+
+            // Remplacer "accueil.html" par "/"
+            var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/dashboardMember\.html$/, '/dashboardMember');
+
+            // Mettre à jour l'URL dans la barre d'adresse
+            history.replaceState({}, '', cleanUrl);
+
     </script>
 </div>
 </body>

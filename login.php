@@ -67,4 +67,4 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
     // Les champs n'ont pas été envoyés
     echo json_encode(array("connexion_reussie" => false, "message" => "Champs manquants."));
 }
-?> 
+?>

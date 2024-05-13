@@ -1,17 +1,22 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
+#include <Arduino.h>
+
+
+
 
 const char* ssid = "E5576_93F9";
 const char* password = "inagd6TbhmB";
 const char* serverAddress = "51.210.151.13";
 const int serverPort = 80;
 
+
 void setup() {
   Serial.begin(115200);
   delay(100);
 
-  // Connexion au réseau WiFi
+  //Connexion au réseau WiFi
   Serial.println();
   Serial.println();
   Serial.print("Connexion au réseau WiFi: ");
@@ -30,20 +35,23 @@ void setup() {
   Serial.println(WiFi.localIP());
 }
 
-void loop() {
-  // Exemple d'envoi de données à votre fichier PHP
-  sendToPHP("Test envoie");
-  delay(5000); 
-}
 
-void sendToPHP() {
+void loop() {
+      String CardID = "156325";
+      // Exemple d'envoi de données à votre fichier PHP
+      sendToPHP(CardID);
+      delay(5000);
+  }
+
+
+void sendToPHP(String jsonData) {
   WiFiClient client;
 
   HTTPClient http;
 
   // Créez un objet JSON
-  DynamicJsonDocument jsonDoc(200); // Taille du document JSON
-  jsonDoc["key"] = "value"; // Ajoutez des données à l'objet JSON
+  DynamicJsonDocument jsonDoc(100); // Taille du document JSON
+  jsonDoc["CardID"] = jsonData; // Ajoutez des données à l'objet JSON
 
   // Convertissez l'objet JSON en une chaîne JSON
   String jsonString;

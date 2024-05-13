@@ -2,9 +2,15 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <Arduino.h>
+#include <ESP32Servo.h>
+#include <MFRC522.h>
+#include <SPI.h>
 
+#define SS_PIN 21
+#define RST_PIN 22
+MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-
+Servo servo;
 
 const char* ssid = "E5576_93F9";
 const char* password = "inagd6TbhmB";
@@ -33,16 +39,28 @@ void setup() {
   Serial.println("WiFi connecté");
   Serial.println("Adresse IP: ");
   Serial.println(WiFi.localIP());
+
+  SPI.begin();
+  mfrc522.PCD_Init();
+
 }
 
 
 void loop() {
-      String CardID = "156325";
+   if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+    Serial.println("Carte détectée.");
+
+    
+    String cardID = "";
+    for (byte i = 0; i < mfrc522.uid.size; i++) {
+      cardID += String(mfrc522.uid.uidByte[i], HEX);
+    }
+
       // Exemple d'envoi de données à votre fichier PHP
-      sendToPHP(CardID);
+      sendToPHP(cardID);
       delay(5000);
   }
-
+}
 
 void sendToPHP(String jsonData) {
   WiFiClient client;

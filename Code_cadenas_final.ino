@@ -4,8 +4,6 @@
 #include <ESP32Servo.h>
 #include <MFRC522.h>
 #include <SPI.h>
-#include <NTPClient.h>
-#include <WiFiUdp.h>
 
 #define SS_PIN 21
 #define RST_PIN 22
@@ -21,8 +19,7 @@ const char* password = "inagd6TbhmB";
 const char* serverAddress = "51.210.151.13";
 const int serverPort = 80;
 
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "pool.ntp.org", 3600, 60000);
+
 
 void setup() {
   Serial.begin(115200);
@@ -47,8 +44,7 @@ void setup() {
   digitalWrite(pin_num2, LOW);
   servo.attach(32);
 
-  timeClient.begin();
-  timeClient.setTimeOffset(3600);
+
 }
 
 void loop() {
@@ -65,32 +61,19 @@ void presence_carte() {
     cardID += String(mfrc522.uid.uidByte[i], HEX);
   }
 
-  timeClient.update();
-  unsigned long epochTime = timeClient.getEpochTime();
-  struct tm *ptm = gmtime((time_t *)&epochTime);
-  int mois = ptm->tm_mon + 1;
-  int jour = ptm->tm_mday;
-  int annee = ptm->tm_year + 1900;
-  int heure = ptm->tm_hour;
-  int minute = ptm->tm_min;
-  int seconde = ptm->tm_sec;
-  char dateTime[20];
-  snprintf(dateTime, sizeof(dateTime), "%04d-%02d-%02d %02d:%02d:%02d", annee, mois, jour, heure, minute, seconde);
-  Serial.printf("Date et Heure : %s\n", dateTime);
   Serial.println("ID de la carte: " + cardID);
 
-  requete_api(macAddress, cardID, String(dateTime));
+  requete_api(macAddress, cardID);
 }
 
-void requete_api(String macAddress, String cardID, String dateTime) {
+void requete_api(String macAddress, String cardID) {
   WiFiClient client;
   HTTPClient http;
 
   // Construire la chaîne JSON manuellement
   String jsonString = "{";
   jsonString += "\"MacAddress\":\"" + macAddress + "\",";
-  jsonString += "\"CardID\":\"" + cardID + "\",";
-  jsonString += "\"DateTime\":\"" + dateTime + "\"";
+  jsonString += "\"CardID\":\"" + cardID + "\"";
   jsonString += "}";
 
   if (http.begin(client, "http://" + String(serverAddress) + ":" + String(serverPort) + "/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/recupArduino.php")) {

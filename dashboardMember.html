@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="dash.css">
-    <title>Dashboard</title>
+    <title>Tableau de bord</title>
 </head>
 <body>
 <div class="dashboard">
@@ -17,35 +17,44 @@
     </nav>
     <div class="content">
         <header>
-            <h1>Dashboard</h1>
+            <h1>Tableau de bord</h1>
         </header>
         <section class="vignettes">
             <div id="temps" class="vignette">
-                <!-- Ajoutez votre contenu de statistique ici -->
                 <h2>Temps</h2>
                 <p>info</p>
             </div>
-            <div id="passage" class="vignette">
-                <!-- Ajoutez votre contenu de statistique ici -->
-                <h2>passage</h2>
-                <p>info</p>
-            </div>
-            <!-- Ajoutez d'autres vignettes selon vos besoins -->
         </section>
     </div>
     <script>
-        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/dashboard.php')
+                    /*FETCH QUI PERMET DE RECUPERER TEMPS*/
+                    
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/dashbord.php')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('La réponse du réseau n\'était pas correcte');
                 }
                 return response.json();
             })
             .then(data => {
-                const tempsVignette = document.querySelector('#temps p');
-                tempsVignette.innerHTML = `Temps passé sur le site : ${data.temps} minutes`;
+                const passageVignette = document.querySelector('#temps p');
+                if (data.error) {
+                    passageVignette.innerHTML = `Erreur : ${data.error}`;
+                } else {
+                    const jsonString = '[{"SUM(temps)":10}]';
+
+
+                    const data = JSON.parse(jsonString);
+
+                    const tempsPasse = data[0]["SUM(temps)"];
+
+                    passageVignette.innerHTML = `Temps passé dans Fablab : ${tempsPasse} heures`;
+                }
             })
-            .catch(error => console.error('Error fetching data:', error));
+            .catch(error => {
+                console.error('Erreur lors de la récupération des données :', error);
+                document.querySelector('#temps p').innerHTML = 'Erreur de chargement des données.';
+            });
 
             // Récupérer l'URL actuelle
             var url = window.location.href;

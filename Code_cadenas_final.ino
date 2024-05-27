@@ -116,4 +116,5 @@ void moteur_esp32() {
   digitalWrite(pin_num2, LOW);
   delay(1000);
   servo.detach();
+  ESP.restart();
 }

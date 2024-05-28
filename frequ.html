@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fréquentation</title>
+    <style>
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        function loadFrequentation() {
+            fetch('frequ.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        console.error('Erreur:', data.error);
+                        return;
+                    }
+
+                    const table = document.getElementById('frequentation').getElementsByTagName('tbody')[0];
+                    const jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+
+                    jours.forEach(jour => {
+                        const row = document.createElement('tr');
+                        const jourCell = document.createElement('th');
+                        jourCell.textContent = jour;
+                        row.appendChild(jourCell);
+
+                        data[jour].forEach(passage => {
+                            const cell = document.createElement('td');
+                            cell.textContent = passage;
+                            row.appendChild(cell);
+                        });
+
+                        table.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Erreur:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', loadFrequentation);
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Fréquentation</h1>
+    <table id="frequentation">
+        <thead>
+        <tr>
+            <th>Jour</th>
+            <th>8h30-10h30</th>
+            <th>10h30-12h30</th>
+            <th>12h30-14h</th>
+            <th>14h-16h</th>
+            <th>16h-18h</th>
+            <th>18h-23h</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Les données seront insérées ici par JavaScript -->
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

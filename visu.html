@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats des utilisateurs avec intervalle OK</title>
+    <link rel="stylesheet" href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/visu.css">
+</head>
+<body>
+
+<table id="userTable">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Grade</th>
+        <th>Dernier badgeage</th>
+        <th>Présence</th>
+    </tr>
+    </thead>
+    <tbody id="userTableBody">
+    <!-- Les données seront ajoutées ici par JavaScript -->
+    </tbody>
+</table>
+
+<script>
+    // Fonction pour récupérer les données depuis PHP
+    function fetchUserData() {
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/visuMember.php')
+            .then(response => response.json())
+            .then(users => {
+                const userTableBody = document.getElementById('userTableBody');
+                users.forEach(user => {
+                    const presenceClass = user.presence.toLowerCase() === 'présent' ? 'present' : 'not-present';
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.mail}</td>
+                        <td>${user.grade}</td>
+                        <td>${user.last_login}</td>
+                        <td class="${presenceClass}">${user.presence}</td>
+                    `;
+                    userTableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Erreur lors de la récupération des données :', error));
+    }
+
+    // Appeler la fonction pour récupérer les données au chargement de la page
+    fetchUserData();
+</script>
+
+</body>
+</html>

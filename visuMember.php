@@ -1,11 +1,7 @@
 <?php
 require_once('config2.php');
 
-
 date_default_timezone_set('Europe/Paris');
-
-// Fonction pour récupérer une instance PDO
-$pdo = get_pdo_instance();
 
 // Fonction pour récupérer une instance PDO
 $pdo = get_pdo_instance();
@@ -25,46 +21,47 @@ try {
         $userMail = $utilisateur['mail'];
         $userGrade = $utilisateur['grade'];
 
-        // Préparation de la requête pour récupérer les logs de l'utilisateur actuel
-        $logStmt = $pdo->prepare('SELECT anne, mois, jour, heure, minutes FROM fablab2024.logs WHERE inscrit_id = :userId');
+        // Préparation de la requête pour récupérer le dernier log de l'utilisateur actuel
+        $logStmt = $pdo->prepare('SELECT anne, mois, jour, heure, minutes FROM fablab2024.logs WHERE inscrit_id = :userId ORDER BY anne DESC, mois DESC, jour DESC, heure DESC, minutes DESC LIMIT 1');
         $logStmt->execute(['userId' => $userId]);
 
-        // Récupérer la date actuelle
-        $currentDate = new DateTime();
-
-        // Variable pour vérifier si l'utilisateur a au moins un intervalle OK
-        $hasIntervalOK = false;
-
-        // Boucle tant qu'il y a des logs à traiter pour l'utilisateur actuel
-        while ($log = $logStmt->fetch(PDO::FETCH_ASSOC)) {
-            // Créer un objet DateTime pour la date du log
+        $lastLogin = 'Jamais';
+        $presence = 'Pas présent';
+        if ($log = $logStmt->fetch(PDO::FETCH_ASSOC)) {
+            // Créer un objet DateTime pour la dernière date de connexion
             $logDateStr = sprintf('%04d-%02d-%02d %02d:%02d:00', $log['anne'], $log['mois'], $log['jour'], $log['heure'], $log['minutes']);
             $logDate = new DateTime($logDateStr);
+            $lastLogin = $logDate->format('Y-m-d H:i:s');
 
-            // Calculer la différence entre les deux dates
+            // Calculer la différence entre la date actuelle et la dernière connexion
+            $currentDate = new DateTime();
             $interval = $currentDate->diff($logDate);
-
-            // Convertir la différence en minutes
             $differenceInMinutes = abs(($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i);
 
             // Vérifier si la différence est de 5 minutes ou moins
-            if ($differenceInMinutes <= 5) {
-                // Marquer que l'utilisateur a au moins un intervalle OK
-                $hasIntervalOK = true;
-                break;
+            if ($differenceInMinutes <= 60) {
+                $presence = 'Présent';
             }
         }
 
-        // Si l'utilisateur a au moins un intervalle OK, l'ajouter au tableau
-        if ($hasIntervalOK) {
-            $usersWithIntervalOK[] = ['id' => $userId, 'name' => $userName, 'mail' => $userMail, 'grade' => $userGrade];
-        }
+        // Ajouter l'utilisateur au tableau
+        $usersWithIntervalOK[] = [
+            'id' => $userId,
+            'name' => $userName,
+            'mail' => $userMail,
+            'grade' => $userGrade,
+            'last_login' => $lastLogin,
+            'presence' => $presence
+        ];
     }
 
-    // Afficher les utilisateurs avec un intervalle OK
+    // Retourner les utilisateurs au format JSON
     echo json_encode($usersWithIntervalOK);
 } catch (PDOException $e) {
     // Gestion des erreurs de connexion
-    echo 'Erreur de connexion : ' . $e->getMessage();
+    echo json_encode(['error' => 'Erreur de connexion : ' . $e->getMessage()]);
 }
 ?>
+
+
+

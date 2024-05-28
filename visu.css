@@ -1,0 +1,67 @@
+/* Styles de base */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(45deg, #3a3d40, #18191a);
+    margin: 0;
+    padding: 0;
+    color: #f4f4f4;
+}
+
+
+
+h1 {
+    text-align: center;
+    color: #f4f4f4;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+}
+
+/* Styles pour le tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+table, th, td {
+    border: none;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    color: #f4f4f4;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+th {
+    background: rgba(0, 0, 0, 0.4);
+    color: #f4f4f4;
+}
+
+td {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+tr:hover td {
+    background: rgba(255, 255, 255, 0.1);
+    transition: background 0.3s;
+}
+
+/* Styles pour l'état */
+.present {
+    color: #02f81b;
+    font-weight: bold;
+}
+
+.not-present {
+    color: #f80808;
+    font-weight: bold;
+}
+
+
+

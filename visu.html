@@ -50,7 +50,25 @@
 
     // Appeler la fonction pour récupérer les données au chargement de la page
     fetchUserData();
+
+
+
+     // Récupérer l'URL actuelle
+     var url = window.location.href;
+
+    // Remplacer "accueil.html" par "/"
+    var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/visu\.html$/, '/Visualisation');
+
+    // Mettre à jour l'URL dans la barre d'adresse
+    history.replaceState({}, '', cleanUrl);
+
+
+
+
+
 </script>
 
 </body>
 </html>
+
+

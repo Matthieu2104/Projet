@@ -23,7 +23,7 @@
     </style>
     <script>
         function loadFrequentation() {
-            fetch('frequ.php')
+            fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/frequ.php')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok ' + response.statusText);
@@ -58,6 +58,19 @@
         }
 
         document.addEventListener('DOMContentLoaded', loadFrequentation);
+
+
+        // Récupérer l'URL actuelle
+        var url = window.location.href;
+
+        // Remplacer "accueil.html" par "/"
+        var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/frequ\.html$/, '/Frequentation');
+
+        // Mettre à jour l'URL dans la barre d'adresse
+        history.replaceState({}, '', cleanUrl);
+
+
+
     </script>
 </head>
 <body>
@@ -82,3 +95,4 @@
 </div>
 </body>
 </html>
+

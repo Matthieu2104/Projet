@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
     <title>Fréquentation</title>
     <style>
         .container {
@@ -38,16 +39,17 @@
 
                     const table = document.getElementById('frequentation').getElementsByTagName('tbody')[0];
                     const jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+                    const timeSlots = ["8h30-10h30", "10h30-12h30", "12h30-14h00", "14h00-16h00", "16h00-18h00", "18h00-23h00"];
 
-                    jours.forEach(jour => {
+                    jours.forEach((jour, jourIndex) => {
                         const row = document.createElement('tr');
                         const jourCell = document.createElement('th');
                         jourCell.textContent = jour;
                         row.appendChild(jourCell);
 
-                        data[jour].forEach(passage => {
+                        timeSlots.forEach((slot, slotIndex) => {
                             const cell = document.createElement('td');
-                            cell.textContent = passage;
+                            cell.textContent = data[jour][slotIndex] || 0;
                             row.appendChild(cell);
                         });
 
@@ -64,13 +66,10 @@
         var url = window.location.href;
 
         // Remplacer "accueil.html" par "/"
-        var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/frequ\.html$/, '/Frequentation');
+        var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/frequ\.html$/, '/Fréquentation');
 
         // Mettre à jour l'URL dans la barre d'adresse
-        history.replaceState({}, '', cleanUrl);
-
-
-
+history.replaceState({}, '', cleanUrl);
     </script>
 </head>
 <body>
@@ -82,10 +81,10 @@
             <th>Jour</th>
             <th>8h30-10h30</th>
             <th>10h30-12h30</th>
-            <th>12h30-14h</th>
-            <th>14h-16h</th>
-            <th>16h-18h</th>
-            <th>18h-23h</th>
+            <th>12h30-14h00</th>
+            <th>14h00-16h00</th>
+            <th>16h00-18h00</th>
+            <th>18h00-23h00</th>
         </tr>
         </thead>
         <tbody>

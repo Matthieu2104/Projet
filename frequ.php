@@ -14,7 +14,7 @@ try {
 
     $jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
-    // Initialiser un tableau pour stocker les fréquentations
+    // Initialiser un tableau pour stocker les fréquentations avec 6 créneaux horaires
     $frequentation = array_fill_keys($jours, array_fill(0, 6, 0));
 
     // Créer un formateur de date pour obtenir le nom du jour de la semaine
@@ -35,22 +35,16 @@ try {
 
         if ($heure === 8 && $minutes >= 30) {
             $creneau = 0;
-        } elseif (($heure === 8 && $minutes < 30) || ($heure === 10 && $minutes >= 30)) {
+        } elseif ($heure >= 10 && $heure < 12) {
             $creneau = 1;
-        } elseif (($heure === 10 && $minutes < 30) || ($heure === 12 && $minutes >= 30)) {
+        } elseif ($heure === 12 && $minutes >= 30 || $heure < 14) {
             $creneau = 2;
-        } elseif (($heure === 12 && $minutes < 30) || ($heure === 14 && $minutes >= 30)) {
+        } elseif ($heure >= 14 && $heure < 16) {
             $creneau = 3;
-        } elseif (($heure === 14 && $minutes < 30) || ($heure === 16 && $minutes >= 30)) {
+        } elseif ($heure >= 16 && $heure < 18) {
             $creneau = 4;
-        } elseif (($heure === 16 && $minutes < 30) || ($heure === 18 && $minutes >= 30)) {
+        } elseif ($heure >= 18 && $heure < 23) {
             $creneau = 5;
-        } elseif ($heure === 18 && $minutes < 30) {
-            $creneau = 6;
-        } elseif ($heure === 18 && $minutes >= 30) {
-            $creneau = 7;
-        } elseif ($heure === 19 || ($heure >= 20 && $heure < 23)) {
-            $creneau = 8;
         }
 
         if ($creneau != -1 && $indexJour !== false) {
@@ -72,3 +66,4 @@ try {
     echo json_encode(["error" => "Erreur: " . $e->getMessage()]);
 }
 ?>
+

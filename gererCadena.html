@@ -14,6 +14,7 @@
         <tr>
             <button type="button" onclick="openModal2()">Ajouter un cadena</button>
             <th>ID</th>
+            <th>Nom</th>
             <th>Grade</th>
             <th>adresseMac</th>
             <th>Action</th>
@@ -31,8 +32,18 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <form id="editForm" method="post" action="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/modifCadena.php">
+            
+            <label for="editNom">Nom:</label>
+            <input type="text" id="editNom" name="editNom">
+
             <label for="editGrade">Grade:</label>
-            <input type="text" id="editGrade" name="editGrade">
+            <select type="text" id="editGrade" name="editGrade">
+                <option value="member">member</option>
+                <option value="teacher">teacher</option>
+                <option value="manager">manager</option>
+                <option value="admin">admin</option>
+            </select>
+
             <label for="editAdresse">adresseMac:</label>
             <input type="text" id="editAdresse" name="editAdresse">
             <button type="button" onclick="sauvegarder()">Sauvegarder</button>
@@ -47,8 +58,18 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal2()">&times;</span>
         <form id="ajouterForm" method="post" action="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/ajouterCadena.php">
+            
+            <label for="newNom">Nom:</label>
+            <input type="text" id="newNom" name="newNom">
+
             <label for="newGrade">Grade:</label>
-            <input type="text" id="newGrade" name="newGrade">
+            <select type="text" id="newGrade" name="newGrade">
+                <option value="member">member</option>
+                <option value="teacher">teacher</option>
+                <option value="manager">manager</option>
+                <option value="admin">admin</option>
+            </select>
+
             <label for="newAdresse">adresseMac:</label>
             <input type="text" id="newAdresse" name="newAdresse">
             <button type="button" onclick="ajouterMembre()">Ajouter Cadena</button>
@@ -78,6 +99,7 @@
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                          <td>${row.id}</td>
+                         <td>${row.nom}</td>
                          <td>${row.grade}</td>
                          <td>${row.adresseMac}</td>
                           <td>
@@ -110,6 +132,7 @@
             .then(data => {
                 console.log(data); // Afficher les données récupérées dans la console
                 // Remplir les champs du formulaire avec les détails de l'employé
+                document.getElementById('editNom').value = data.nom;
                 document.getElementById('editGrade').value = data.grade;
                 document.getElementById('editAdresse').value = data.adresseMac;
             })
@@ -225,4 +248,3 @@
 </script>
 </body>
 </html>
-

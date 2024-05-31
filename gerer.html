@@ -28,8 +28,6 @@
 </div>
 
 <!-- Modal pour le bouton modifier-->
-
-
 <div id="myModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -37,7 +35,12 @@
             <label for="editName">Name:</label>
             <input type="text" id="editName" name="editName">
             <label for="editGrade">Grade:</label>
-            <input type="text" id="editGrade" name="editGrade">
+            <select id="editGrade" name="editGrade">
+                <option value="member">member</option>
+                <option value="teacher">teacher</option>
+                <option value="manager">manager</option>
+                <option value="admin">admin</option>
+            </select>
             <label for="editPassword">Password:</label>
             <input type="password" id="editPassword" name="editPassword">
             <label for="editMail">Mail:</label>
@@ -50,8 +53,6 @@
 </div>
 
 <!-- Modal pour ajouter un membre -->
-
-
 <div id="ajouterModal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close" onclick="closeModal2()">&times;</span>
@@ -59,7 +60,12 @@
             <label for="newName">Name:</label>
             <input type="text" id="newName" name="newName">
             <label for="newGrade">Grade:</label>
-            <input type="text" id="newGrade" name="newGrade">
+            <select id="newGrade" name="newGrade">
+                <option value="member">member</option>
+                <option value="teacher">teacher</option>
+                <option value="manager">manager</option>
+                <option value="admin">admin</option>
+            </select>
             <label for="newPassword">Password:</label>
             <input type="password" id="newPassword" name="newPassword">
             <label for="newMail">Mail:</label>
@@ -71,12 +77,10 @@
     </div>
 </div>
 
-
-<!--SCRIPT-->
-
-
+<!-- SCRIPT -->
 <script>
     let editId = null;
+    
     // Fonction pour récupérer les données depuis le fichier PHP
     function retrieveData() {
         fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/gerer.php')
@@ -88,9 +92,10 @@
             })
             .then(data => {
                 const tbody = document.querySelector('#employeeTable tbody');
-                tbody.innerHTML = ''; // Clear existing data
+                tbody.innerHTML = ''; //permet de supprimer toute les données existanteS 
                 data.forEach(row => {
                     const tr = document.createElement('tr');
+                    // remplit le tableau avec les informations reçus du php
                     tr.innerHTML = `
                          <td>${row.id}</td>
                          <td>${row.username}</td>
@@ -110,8 +115,6 @@
     }
 
     // Fonction pour ouvrir la modal de formulaire d'édition
-
-
     function openModal(id) {
         editId = id;
         var modal = document.getElementById("myModal");
@@ -137,49 +140,40 @@
             .catch(error => console.error('Erreur lors de la récupération des détails de l\'employé:', error));
     }
 
-
-
     // Fonction pour fermer la modal de formulaire d'édition
-
     function closeModal() {
         var modal = document.getElementById("myModal");
         modal.style.display = "none"; // Cache la modal
     }
 
-
-    //Fonction pour fermer la modal de formualaire d'edition
-
-    function sauvegarder(){
+    // Fonction pour sauvegarder les modifications
+    function sauvegarder() {
         var form = document.getElementById("editForm");
         var formData = new FormData(form);
         formData.append("id", editId);
 
-        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/modifier.php',{
-            method:"POST",
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/modifier.php', {
+            method: "POST",
             body: formData
         })
-            .then(response => {
-                if (response.ok) {
-                    // La requête a réussi, faire quelque chose ici si nécessaire
-                    closeModal()
-                    retrieveData();
-                    console.log('Données sauvegardées avec succès !');
-                } else {
-                    // La requête a échoué, gérer l'erreur ici si nécessaire
-                    console.error('Erreur lors de la sauvegarde des données : ', response.status);
-                }
-            })
-            .catch(error => {
-                // Une erreur s'est produite lors de la tentative d'envoi des données
-                console.error('Erreur lors de la tentative de sauvegarde des données : ', error);
-            });
-
+        .then(response => {
+            if (response.ok) {
+                // La requête a réussi, faire quelque chose ici si nécessaire
+                closeModal();
+                retrieveData();
+                console.log('Données sauvegardées avec succès !');
+            } else {
+                // La requête a échoué, gérer l'erreur ici si nécessaire
+                console.error('Erreur lors de la sauvegarde des données : ', response.status);
+            }
+        })
+        .catch(error => {
+            // Une erreur s'est produite lors de la tentative d'envoi des données
+            console.error('Erreur lors de la tentative de sauvegarde des données : ', error);
+        });
     }
 
-
-    //Fonction qui permet de supprimer une dans le tableau
-
-
+    // Fonction pour supprimer une ligne dans le tableau
     function deleteRow(id) {
         fetch(`http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/supprimer.php?id=${id}`, { method: 'GET' })
             .then(response => {
@@ -193,41 +187,43 @@
             .catch(error => console.error('Erreur lors de la suppression de la ligne:', error));
     }
 
-    function ajouterMembre(){
+    // Fonction pour ajouter un membre
+    function ajouterMembre() {
         var form = document.getElementById("ajouterForm");
         var formData = new FormData(form);
 
-        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/ajouter.php',{
-            method:"POST",
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/ajouter.php', {
+            method: "POST",
             body: formData
         })
-            .then(response => {
-                if (response.ok) {
-                    // La requête a réussi, faire quelque chose ici si nécessaire
-                    closeModal2()
-                    retrieveData();
-                    console.log('Données sauvegardées avec succès !');
-                } else {
-                    // La requête a échoué, gérer l'erreur ici si nécessaire
-                    console.error('Erreur lors de la sauvegarde des données : ', response.status);
-                }
-            })
-            .catch(error => {
-                // Une erreur s'est produite lors de la tentative d'envoi des données
-                console.error('Erreur lors de la tentative de sauvegarde des données : ', error);
-            });
+        .then(response => {
+            if (response.ok) {
+                // La requête a réussi, faire quelque chose ici si nécessaire
+                closeModal2();
+                retrieveData();
+                console.log('Données sauvegardées avec succès !');
+            } else {
+                // La requête a échoué, gérer l'erreur ici si nécessaire
+                console.error('Erreur lors de la sauvegarde des données : ', response.status);
+            }
+        })
+        .catch(error => {
+            // Une erreur s'est produite lors de la tentative d'envoi des données
+            console.error('Erreur lors de la tentative de sauvegarde des données : ', error);
+        });
     }
 
+    // Fonction pour ouvrir la modal d'ajout de membre
     function openModal2() {
         var modal2 = document.getElementById("ajouterModal");
         modal2.style.display = "block";
     }
 
+    // Fonction pour fermer la modal d'ajout de membre
     function closeModal2() {
         var modal2 = document.getElementById("ajouterModal");
         modal2.style.display = "none"; // Cache la modal
     }
-
 
     // Récupérer l'URL actuelle
     var url = window.location.href;
@@ -237,11 +233,9 @@
 
     // Mettre à jour l'URL dans la barre d'adresse
     history.replaceState({}, '', cleanUrl);
-    
 
     // Appeler la fonction pour récupérer les données lors du chargement de la page
     window.onload = retrieveData;
-
 </script>
 </body>
 </html>

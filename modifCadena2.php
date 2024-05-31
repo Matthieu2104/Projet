@@ -10,7 +10,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
     $id = $_GET['id'];
 
     // Préparer la requête SQL pour sélectionner les détails de l'employé correspondant à l'ID
-    $sql = "SELECT grade, adresseMac FROM fablab2024.cadenas WHERE id = :id";
+    $sql = "SELECT nom, grade, adresseMac FROM fablab2024.cadenas WHERE id = :id";
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);

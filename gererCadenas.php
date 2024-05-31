@@ -5,11 +5,11 @@ $pdo = get_pdo_instance();
 
 // Vérifier la connexion
 if (!$pdo) {
-    die("Connection failed: " . $pdo->errorInfo()[2]); // Affiche l'erreur de connexion
+    die("Connection failed: " . $pdo->errorInfo()[3]); // Affiche l'erreur de connexion
 }
 
 // Requête SQL pour récupérer les données
-$sql = "SELECT id,grade, adresseMac FROM fablab2024.cadenas";
+$sql = "SELECT id, nom, grade, adresseMac FROM fablab2024.cadenas";
 $result = $pdo->query($sql);
 
 $data = array();

@@ -1,40 +1,78 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/dash.css">
+    <title>Dashboard</title>
+</head>
+<body>
+<div class="dashboard">
+    <nav class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/Accueil.html">Accueil</a></li>
+            <li><a href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/gerer.html">gerer utilisateur</a></li>
+            <li><a href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/gererCadena.html">gerer cadenas</a></li>
+            <li><a href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/visu.html">Membre Connecter</a></li>
+            <li><a href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/frequ.html">Frequentation</a></li>
+            <!-- Ajoutez d'autres liens selon vos besoins -->
+        </ul>
+    </nav>
+    <div class="content">
+        <header>
+            <h1>Dashboard</h1>
+        </header>
+        <section class="vignettes">
+            <div id="nbrad" class="vignette">
+                <!-- Ajoutez votre contenu de statistique ici -->
+                <h2>Nombre adhenrent</h2>
+                <p>info</p>
+            </div>
+            <div id="passage" class="vignette">
+                <!-- Ajoutez votre contenu de statistique ici -->
+                <h2>passage</h2>
+                <p>info</p>
+            </div>
+            
+        </section>
+       
+    </div>
+    <script>
 
-include 'config2.php';
+        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/nbrAdherent.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('La réponse du réseau n\'était pas correcte');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const passageVignette = document.querySelector('#nbrad p');
+                if (data.error) {
+                    passageVignette.innerHTML = `Erreur : ${data.error}`;
+                } else {
 
-session_start();
+                    const adh = data["nombre_de_personnes"];
 
-// Vérifiez si l'utilisateur est authentifié
-if (!isset($_SESSION['id'])) {
-    die(json_encode(["error" => "Utilisateur non authentifié."]));
-}
+                    passageVignette.innerHTML = `Il y a  ${adh} inscrits dans fablab`;
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des données :', error);
+                document.querySelector('#nbrad p').innerHTML = 'Erreur de chargement des données.';
+            });
 
-$inscrit_id = $_SESSION['id'];
+             // Récupérer l'URL actuelle
+            var url = window.location.href;
 
-$pdo = get_pdo_instance();
+            // Remplacer "accueil.html" par "/"
+            var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/dashboard\.html$/, '/dashboardAdmin');
 
-// Vérifiez la connexion
-if (!$pdo) {
-    die(json_encode(["error" => "Échec de la connexion à la base de données : " . $pdo->errorInfo()[2]]));
-}
-
-// Requête SQL pour récupérer les données de passage pour l'utilisateur connecté
-$passage_sql = "SELECT SUM(temps) FROM fablab2024.logs WHERE inscrit_id = :inscrit_id";
-
-try {
-    $requete = $pdo->prepare($passage_sql);
-    $requete->bindParam(':inscrit_id', $inscrit_id, PDO::PARAM_INT);
-    $requete->execute();
-
-    $data = $requete->fetchAll(PDO::FETCH_ASSOC);
-
-    // Renvoyer les données au format JSON
-    echo json_encode($data);
-} catch (PDOException $e) {
-    // Gestion des erreurs de base de données
-    echo json_encode(["error" => "Erreur de requête : " . $e->getMessage()]);
-}
-
-// Fermer la connexion à la base de données
-$pdo = null;
-?>
+            // Mettre à jour l'URL dans la barre d'adresse
+            history.replaceState({}, '', cleanUrl);
+                
+    </script>
+</div>
+</body>
+</html>

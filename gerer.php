@@ -10,7 +10,7 @@ if (!$pdo) {
 }
 
 // Requête SQL pour récupérer les données
-$sql = "SELECT id, username, grade, password, mail FROM user.inscrit";
+$sql = "SELECT id, username, grade, password, mail, numero FROM fablab2024.inscrit";
 $result = $pdo->query($sql);
 
 $data = array();

@@ -29,3 +29,4 @@ if(isset($_GET['id'])) {
 // Fermer la connexion à la base de données
 $pdo = null;
 ?>
+

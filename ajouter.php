@@ -49,3 +49,4 @@ if(isset($_POST['newName']) && isset($_POST['newPassword'])&& isset($_POST['newM
 echo json_encode($response);
 ?>
 
+

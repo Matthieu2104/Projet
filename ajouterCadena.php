@@ -45,3 +45,4 @@ if (isset($_POST['newGrade']) && isset($_POST['newAdresse'])) {
 // Conversion du tableau en JSON
 echo json_encode($response);
 
+

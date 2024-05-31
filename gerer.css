@@ -136,7 +136,7 @@ label {
     color: #f4f4f4;
 }
 
-input[type=text], input[type=password], input[type=email] {
+input[type=text], input[type=password], input[type=email], select {
     width: 100%;
     padding: 10px;
     margin: 8px 0;
@@ -144,6 +144,7 @@ input[type=text], input[type=password], input[type=email] {
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
+    color: #000;
 }
 
 button[type=button] {
@@ -166,4 +167,39 @@ button[type=button]:hover {
 
 button[type=button]:active {
     transform: scale(0.95);
+}
+
+/* Styles pour le menu déroulant */
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+select:hover {
+    border-color: #817f7d;
+}
+
+select:focus {
+    border-color: #aca6a5;
+    outline: none;
+    box-shadow: 0 0 5px rgba(172, 166, 165, 0.5);
+}
+
+option {
+    background-color: #fff;
+    color: #000;
+}
+
+option:checked {
+    background-color: #ccc;
 }

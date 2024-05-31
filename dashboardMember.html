@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="dash.css">
+    <link rel="stylesheet" href="http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/dash.css">
     <title>Tableau de bord</title>
 </head>
 <body>
@@ -21,6 +21,7 @@
         </header>
         <section class="vignettes">
             <div id="temps" class="vignette">
+
                 <h2>Temps</h2>
                 <p>info</p>
             </div>
@@ -28,44 +29,42 @@
     </div>
     <script>
                     /*FETCH QUI PERMET DE RECUPERER TEMPS*/
-                    
-        fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/dashbord.php')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('La réponse du réseau n\'était pas correcte');
-                }
-                return response.json();
-            })
-            .then(data => {
-                const passageVignette = document.querySelector('#temps p');
-                if (data.error) {
-                    passageVignette.innerHTML = `Erreur : ${data.error}`;
-                } else {
-                    const jsonString = '[{"SUM(temps)":10}]';
+
+                    fetch('http://51.210.151.13/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/dashbord.php')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('La réponse du réseau n\'était pas correcte');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const passageVignette = document.querySelector('#temps p');
+                            if (data.error) {
+                                passageVignette.innerHTML = `Erreur : ${data.error}`;
+                            } else {
+                                // Modifier ici pour accéder aux données correctement
+                                const tempsPasse = data[0]["SUM(temps)"];
+                                passageVignette.innerHTML = `Temps passé dans Fablab : ${tempsPasse} heures`;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de la récupération des données :', error);
+                            document.querySelector('#temps p').innerHTML = 'Erreur de chargement des données.';
+                        });
 
 
-                    const data = JSON.parse(jsonString);
+                        // Récupérer l'URL actuelle
+                        var url = window.location.href;
 
-                    const tempsPasse = data[0]["SUM(temps)"];
+                        // Remplacer "accueil.html" par "/"
+                        var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/dashboardMember\.html$/, '/dashboarMember');
 
-                    passageVignette.innerHTML = `Temps passé dans Fablab : ${tempsPasse} heures`;
-                }
-            })
-            .catch(error => {
-                console.error('Erreur lors de la récupération des données :', error);
-                document.querySelector('#temps p').innerHTML = 'Erreur de chargement des données.';
-            });
+                        // Mettre à jour l'URL dans la barre d'adresse
+                        history.replaceState({}, '', cleanUrl);
 
-            // Récupérer l'URL actuelle
-            var url = window.location.href;
-
-            // Remplacer "accueil.html" par "/"
-            var cleanUrl = url.replace(/\/btssnir\/projets2024\/fablab2024\/fablab2024\/site\/projetApiXweb\/dashboardMember\.html$/, '/dashboardMember');
-
-            // Mettre à jour l'URL dans la barre d'adresse
-            history.replaceState({}, '', cleanUrl);
 
     </script>
 </div>
 </body>
 </html>
+

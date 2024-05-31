@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $adresseMac = $data['MacAddress'];
         $numero = $data['CardID'];
 
-        // Initialiser la variable pour stocker le résultat de la connexion
+        // Initialiser la variable pour stocker le résultat de la validation
         $valide = "non";
 
         // Vérifier l'authentification de l'utilisateur
@@ -49,27 +49,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     "admin" => ["member", "teacher", "manager", "admin"]
                 ];
 
+                // Récupérer les détails actuels
+                $currentDateTime = new DateTime();
+                $annee = $currentDateTime->format('Y');
+                $mois = $currentDateTime->format('m');
+                $jour = $currentDateTime->format('d');
+                $heure = $currentDateTime->format('H');
+                $minutes = $currentDateTime->format('i');
+
+                // Vérifier l'heure du dernier badgeage
+                $lastLoginQuery = "SELECT MAX(CONCAT(anne, '-', LPAD(mois, 2, '0'), '-', LPAD(jour, 2, '0'), ' ', LPAD(heure, 2, '0'), ':', LPAD(minutes, 2, '0'))) as last_login 
+                                   FROM fablab2024.logs 
+                                   WHERE inscrit_id = :inscrit_id";
+                
+                $lastLoginRe = $pdo->prepare($lastLoginQuery);
+                $lastLoginRe->bindParam(':inscrit_id', $inscrit_id['id'], PDO::PARAM_INT);
+                $lastLoginRe->execute();
+
+                $lastLogin = $lastLoginRe->fetch(PDO::FETCH_ASSOC);
+
+                $interval = null;
+                if ($lastLogin['last_login']) {
+                    $lastLoginDateTime = new DateTime($lastLogin['last_login']);
+                    $interval = $currentDateTime->diff($lastLoginDateTime);
+                }
+
+                // Validation si l'intervalle est supérieur ou égal à une heure ou s'il n'y a pas d'enregistrement précédent
                 if (in_array($cadena["grade"], $gradesAllowed[$carte["grade"]])) {
                     $valide = "ok";
-
-                    // Récupérer les détails actuels
-                    $annee = date('Y');
-                    $mois = date('m');
-                    $jour = date('d');
-                    $heure = date('H');
-                    $minutes = date('i');
-
-                    $logincre = "INSERT INTO fablab2024.logs (anne, mois, jour, heure, minutes, inscrit_id) VALUES (:anne, :mois, :jour, :heure, :minutes, :inscrit_id)";
-                    $logRE = $pdo->prepare($logincre);
-
-                    $logRE->bindParam(':anne', $annee, PDO::PARAM_INT);
-                    $logRE->bindParam(':mois', $mois, PDO::PARAM_INT);
-                    $logRE->bindParam(':jour', $jour, PDO::PARAM_INT);
-                    $logRE->bindParam(':heure', $heure, PDO::PARAM_INT);
-                    $logRE->bindParam(':minutes', $minutes, PDO::PARAM_INT);
-                    $logRE->bindParam(':inscrit_id', $inscrit_id['id'], PDO::PARAM_INT);
-
-                    $logRE->execute();
+                    if (!$interval || $interval->h >= 1 || $interval->d > 0) {
+                        // Incrémenter le passage et le temps si l'intervalle est inférieur à 1 heure
+                        $logincre = "INSERT INTO fablab2024.logs (anne, mois, jour, heure, minutes, inscrit_id, passage, temps) 
+                                     VALUES (:anne, :mois, :jour, :heure, :minutes, :inscrit_id, 1, 1)";
+        
+                        $logRE = $pdo->prepare($logincre);
+        
+                        $logRE->bindParam(':anne', $annee, PDO::PARAM_INT);
+                        $logRE->bindParam(':mois', $mois, PDO::PARAM_INT);
+                        $logRE->bindParam(':jour', $jour, PDO::PARAM_INT);
+                        $logRE->bindParam(':heure', $heure, PDO::PARAM_INT);
+                        $logRE->bindParam(':minutes', $minutes, PDO::PARAM_INT);
+                        $logRE->bindParam(':inscrit_id', $inscrit_id['id'], PDO::PARAM_INT);
+        
+                        $logRE->execute();
+                    
+                        // Sinon, incrémente le passage et le temps existants
+                        $updatePassageTimeQuery = "UPDATE fablab2024.logs 
+                                                   SET passage = 1, temps = 1
+                                                   WHERE inscrit_id = :inscrit_id";
+                        
+                        $updatePassageTimeRe = $pdo->prepare($updatePassageTimeQuery);
+                        $updatePassageTimeRe->bindParam(':inscrit_id', $inscrit_id['id'], PDO::PARAM_INT);
+                        $updatePassageTimeRe->execute();
+                    }
                 }
             }
 
@@ -88,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(array("grade_valide" => true, "message" => "CardID valide."));
         } else {
             http_response_code(400);
-            echo json_encode(array("grade_valide" => false, "message" => "CardID invalide."));
+            echo json_encode(array("grade_valide" => false, "message" => "CardID invalide ou moins d'une heure depuis le dernier badgeage."));
         }
     } else {
         // Si les données sont manquantes ou invalides
@@ -97,4 +129,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-

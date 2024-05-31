@@ -1,10 +1,13 @@
 <?php
+
+session_start();
+
 // Inclure le fichier de configuration
 include 'config2.php';
 
 // Vérifier si les champs username et password ont été envoyés
 if(isset($_POST['username']) && isset($_POST['password'])) {
-    // Récupérer les valeurs des champs username et password
+    // Récupération des champs username et password
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -15,12 +18,13 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
     // Initialiser la variable pour stocker le résultat de la connexion
     $connexion_reussie = false;
 
-    // Vérifier l'authentification de l'utilisateur
-    $pdo = get_pdo_instance(); // Supposant que cette fonction est définie dans config2.php
+    // connection a la bdd
+    $pdo = get_pdo_instance(); // 
 
     try {
-        // Utilisation de requêtes préparées pour éviter les injections SQL
-        $sql = "SELECT username, password, grade FROM fablab2024.inscrit WHERE username = :username";
+        //  requêtes  SQL
+        $sql = "SELECT id, username, password, grade FROM fablab2024.inscrit WHERE username = :username";
+
         $requete = $pdo->prepare($sql);
         $requete->bindParam(':username', $username, PDO::PARAM_STR);
         $requete->execute();
@@ -36,18 +40,19 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
         if ($username_valid) {
             // Si le nom d'utilisateur est valide, vérifier le mot de passe
             if ($row['password'] === $password) {
-                // Le nom d'utilisateur et le mot de passe sont valides
+        
                 $connexion_reussie = true;
                 $grade = $row['grade']; // Récupérer le grade de l'utilisateur
+                $id = $row['id'];
             }
         }
 
         // Retourner une réponse JSON indiquant le succès ou l'échec de la connexion
         if ($connexion_reussie) {
-            session_start();
-            $_SESSION['username'] = $username;
-            if ($grade=='Admin'){
-                echo json_encode(array("connexion_reussie" => true, "message" => "Admin"));
+
+            $_SESSION['id'] = $id;
+            if ($grade=='admin'){
+                echo json_encode(array("connexion_reussie" => true, "message" => "admin"));
             }else{
                 echo json_encode(array("connexion_reussie" => true, "message" => "Connexion"));
             }

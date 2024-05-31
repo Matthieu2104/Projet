@@ -7,6 +7,7 @@ include 'config2.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données envoyées depuis le formulaire
     $id = $_POST['id']; // Correction du nom du champ pour récupérer l'ID
+    $nom= $_POST['editNom'];
     $grade = $_POST['editGrade'];
     $adresseMac = $_POST['editAdresse'];
 
@@ -14,13 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pdo = get_pdo_instance();
 
     try {
-        $sql = "UPDATE fablab2024.cadenas SET grade=:grade, adresseMac=:adresseMac WHERE id=:id";
+        $sql = "UPDATE fablab2024.cadenas SET nom=:nom, grade=:grade, adresseMac=:adresseMac WHERE id=:id";
 
         // Préparation de la requête
         $stmt = $pdo->prepare($sql);
 
         // Liaison des paramètres
         $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':nom', $nom);
         $stmt->bindParam(':grade', $grade);
         $stmt->bindParam(':adresseMac', $adresseMac);
 
@@ -44,3 +46,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Conversion du tableau en JSON
 echo json_encode($response);
+

@@ -14,10 +14,10 @@ Servo servo;
 const int pin_num1 = 1; 
 const int pin_num2 = 3;
 
-const char* ssid = "E5576_93F9";
-const char* password = "inagd6TbhmB";
-const char* serverAddress = "51.210.151.13";
-const int serverPort = 80;
+const char* ssid = "E5576_93F9"; //nom du reseau
+const char* password = "inagd6TbhmB"; //mot de passe du réseau
+const char* serverAddress = "51.210.151.13"; //url du serveur
+const int serverPort = 80; //port du serveur
 
 
 
@@ -48,40 +48,44 @@ void setup() {
 }
 
 void loop() {
+  //reconnaitre une carte et la lire
   if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
     Serial.println("Carte détectée.");
-    presence_carte();
+    presence_carte(); //appel de la fonction presence_carte
   }
 }
 
 void presence_carte() {
   String cardID = "";
+  //récupérer Adresse Mac
   String macAddress = WiFi.macAddress();
+  //récupérer l'ID de la carte en Hexadecimal
   for (byte i = 0; i < mfrc522.uid.size; i++) {
     cardID += String(mfrc522.uid.uidByte[i], HEX);
   }
 
   Serial.println("ID de la carte: " + cardID);
 
-  requete_api(macAddress, cardID);
+  requete_api(macAddress, cardID); //appel de la fonction requete_api avec l'ID de la carte et l'adresse mac
 }
 
 void requete_api(String macAddress, String cardID) {
   WiFiClient client;
   HTTPClient http;
 
-  // Construire la chaîne JSON manuellement
+  // Construire la chaîne JSON
   String jsonString = "{";
   jsonString += "\"MacAddress\":\"" + macAddress + "\",";
   jsonString += "\"CardID\":\"" + cardID + "\"";
   jsonString += "}";
-
+  //connexion a l'adresse de l'API
   if (http.begin(client, "http://" + String(serverAddress) + ":" + String(serverPort) + "/btssnir/projets2024/fablab2024/fablab2024/site/projetApiXweb/recupArduino.php")) {
     http.addHeader("Content-Type", "application/json");
     http.addHeader("User-Agent", "ESP32");
 
     Serial.println("JSON envoyé : " + jsonString);
-
+    
+    //envoie de la chaine JSON a l'API en methode POST
     int httpResponseCode = http.POST(jsonString);
 
     Serial.print("Code de réponse HTTP: ");
@@ -90,7 +94,7 @@ void requete_api(String macAddress, String cardID) {
     if (httpResponseCode == 200) {
       String response = http.getString();
       Serial.println("Réponse du serveur: " + response);
-      moteur_esp32();
+      moteur_esp32(); //appel de la fopnction moteur_esp32
     } else if (httpResponseCode == 400) {
       Serial.println("Carte non valide");
       digitalWrite(pin_num1, HIGH);
@@ -108,13 +112,12 @@ void requete_api(String macAddress, String cardID) {
 
 void moteur_esp32() {
   digitalWrite(pin_num2, HIGH);
-  servo.attach(32);
+  servo.attach(32); //mise en fonctionnement du servomoteur
   delay(500);
-  servo.write(35);
+  servo.write(35); //ouverture du servomoteur a 35°
   delay(2000);
-  servo.write(0);
+  servo.write(0);//remise en place a 0°
   digitalWrite(pin_num2, LOW);
   delay(1000);
-  servo.detach();
-  ESP.restart();
+  servo.detach(); //mise hors tension du servomoteur
 }

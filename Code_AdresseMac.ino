@@ -10,7 +10,7 @@ void setup() {
   WiFi.mode(WIFI_STA);
   WiFi.begin();
   
-  // Attendre que le module WiFi soit initialisé
+ //Attente de connexion
   while (WiFi.status() == WL_DISCONNECTED) {
     delay(100);
   }
@@ -18,11 +18,11 @@ void setup() {
   // Récupérer l'adresse MAC
   String macAddress = WiFi.macAddress();
   
-  // Afficher l'adresse MAC dans la console série
+  // Afficher l'adresse MAC
   Serial.print("Adresse MAC de l'ESP32: ");
   Serial.println(macAddress);
 }
 
 void loop() {
-  // Rien à faire dans la boucle principale
+
 }
